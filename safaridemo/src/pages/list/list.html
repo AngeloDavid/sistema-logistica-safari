@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>List</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item-sliding *ngFor="let pr of personal; let i= index">
+          <ion-item  >
+              <ion-avatar item-start>
+                <img src="assets/imgs/user.png">
+              </ion-avatar>
+              <h2>{{ pr.name }} </h2>
+              <h3>{{ pr.lastname }} </h3>
+              <p><strong>Ruta: </strong> {{ pr.route.toLocaleLowerCase() }} - <strong>Barrio:</strong> {{ pr.neighborhod.toLocaleLowerCase() }} </p>
+              <p item-end> 
+                <ion-icon name="md-subway"></ion-icon> {{ pr.timeC.getHours() }}: {{ pr.timeC.getMinutes() }}<br>               
+                <button ion-button icon-only large  clear color="dark" *ngIf="pr.isarrive" (click)="personalchecked(i)" >
+                    <ion-icon name="checkbox-outline"></ion-icon> 
+                </button>
+                <button ion-button icon-only large  clear color="dark" *ngIf="!pr.isarrive" (click)="personalchecked(i)">
+                    <ion-icon name="square-outline"></ion-icon> 
+                </button>
+            </ion-item>
+            <ion-item-options>
+              <button ion-button color="primary" icon-start>
+                <ion-icon name="logo-whatsapp"></ion-icon>                
+              </button>
+              <button ion-button color="secondary" icon-start>
+                <ion-icon name="call"></ion-icon>                
+              </button>
+            </ion-item-options>  
+    </ion-item-sliding>
+  </ion-list>
+  <ion-fab  bottom center>
+      <button ion-fab ><ion-icon name="qr-scanner"></ion-icon></button>      
+    </ion-fab>
+</ion-content>
