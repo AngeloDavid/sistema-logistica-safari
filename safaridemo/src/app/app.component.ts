@@ -5,7 +5,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
-
+import { MapPage } from '../pages/map/map';
+import { SettingsPage } from '../pages/settings/settings';
+import { CompanyPage } from '../pages/company/company';
 @Component({
   templateUrl: 'app.html'
 })
@@ -14,17 +16,27 @@ export class MyApp {
 
   rootPage: any = HomePage;
 
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{title: string, component: any,icon:string}>;
+  user:any;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage }
+      { title: 'Inicio', component: HomePage,icon:'home' },
+      { title: 'Recoridos', component: CompanyPage, icon:'train' },
+      { title: 'Mapa', component: MapPage, icon:'map' },
+      { title: 'Configuraciones', component: SettingsPage, icon:'settings' },
+      { title: 'Cerrar  Sesión', component: null, icon:'exit' }
     ];
 
+    this.user={
+      name:"VICTOR GONZALO",
+      lastname:"GUALOTO SANGUÑA",
+      code:"C6",
+      
+    }
   }
 
   initializeApp() {
@@ -39,6 +51,9 @@ export class MyApp {
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+    if(page.component != null){
+      this.nav.setRoot(page.component);
+    }
+  
   }
 }

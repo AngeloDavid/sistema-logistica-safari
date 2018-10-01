@@ -3,20 +3,45 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>List</ion-title>
+    <ion-title>GARLANDSECUADOR S.A.</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only >
+        <ion-icon name="ios-navigate"></ion-icon>
+      </button>
+    </ion-buttons>
+    
   </ion-navbar>
+  <div>
+      <ion-segment [(ngModel)]="option">
+        <ion-segment-button value="list">
+          Lista
+        </ion-segment-button>
+        <ion-segment-button value="map">
+          Mapa
+        </ion-segment-button>
+      </ion-segment>
+    </div>
 </ion-header>
 
-<ion-content>
-  <ion-list>
-    <ion-item-sliding *ngFor="let pr of personal; let i= index">
+<ion-content [ngSwitch]="option" >   
+     
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+  <ion-list  *ngSwitchCase="'list'" >
+      <ion-item-divider color="light">INGRESO
+        <p item-end> <ion-icon name="clock"></ion-icon>&nbsp; &nbsp; 23:45</p>
+      </ion-item-divider>
+    <ion-item-sliding *ngFor="let pr of personal; let i= index">      
           <ion-item  >
-              <ion-avatar item-start>
-                <img src="assets/imgs/user.png">
+              <ion-avatar item-start  >
+                <img src="assets/imgs/user.png" (click)="detallar(i)">
               </ion-avatar>
               <h2>{{ pr.name }} </h2>
               <h3>{{ pr.lastname }} </h3>
-              <p><strong>Ruta: </strong> {{ pr.route.toLocaleLowerCase() }} - <strong>Barrio:</strong> {{ pr.neighborhod.toLocaleLowerCase() }} </p>
+              <p><strong>Ruta: </strong> {{ pr.route.toLocaleLowerCase() }} - <strong>Barrio:</strong> {{ pr.neighborhod.toLocaleLowerCase() }}<br>
+                <strong>Dirrecion:</strong> {{ pr.streetm.toLocaleLowerCase() }} {{ pr.numhouse }}  {{ pr.streets.toLocaleLowerCase() }}
+               </p>
               <p item-end> 
                 <ion-icon name="md-subway"></ion-icon> {{ pr.timeC.getHours() }}: {{ pr.timeC.getMinutes() }}<br>               
                 <button ion-button icon-only large  clear color="dark" *ngIf="pr.isarrive" (click)="personalchecked(i)" >
@@ -25,6 +50,7 @@
                 <button ion-button icon-only large  clear color="dark" *ngIf="!pr.isarrive" (click)="personalchecked(i)">
                     <ion-icon name="square-outline"></ion-icon> 
                 </button>
+              </p>
             </ion-item>
             <ion-item-options>
               <button ion-button color="primary" icon-start>
@@ -36,6 +62,9 @@
             </ion-item-options>  
     </ion-item-sliding>
   </ion-list>
+  <div  *ngSwitchCase="'map'">
+      <img src="assets/imgs/mapr.jpg" style="max-width:none">
+  </div>
   <ion-fab  bottom center>
       <button ion-fab ><ion-icon name="qr-scanner"></ion-icon></button>      
     </ion-fab>

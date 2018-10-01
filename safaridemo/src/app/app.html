@@ -5,10 +5,16 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-content>
+  <ion-content>      
     <ion-list>
+      <ion-item>
+          <img src="assets/imgs/user.png" style="width: 100px ; margin: auto; display:block; padding-top: 3%"> 
+          <h2 style="text-align: center">{{ user.name }} </h2>
+          <h3 style="text-align: center">{{ user.lastname }} </h3>
+          <p style="text-align: center">{{ user.code }}</p>
+      </ion-item>
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-        {{p.title}}
+        <ion-icon [name]="p.icon"></ion-icon> {{p.title}}
       </button>
     </ion-list>
   </ion-content>

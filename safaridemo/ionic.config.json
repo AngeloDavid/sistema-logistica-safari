@@ -1,5 +1,7 @@
 {
   "name": "safaridemo",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "ionic-angular"
 }

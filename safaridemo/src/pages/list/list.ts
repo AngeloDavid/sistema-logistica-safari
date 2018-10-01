@@ -1,16 +1,19 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-
+import { PopoverController } from 'ionic-angular';
+import {EmployeoverPage} from '../employeover/employeover';
 @Component({
   selector: 'page-list',
   templateUrl: 'list.html'
 })
 export class ListPage {
   selectedItem: any;
+  option:string='list';
   icons: string[];
   items: Array<{title: string, note: string, icon: string}>;
 
   personal: Array<{id:number,
+                  area?:string,
                   name:string,
                   lastname:string,             
                   route:string,
@@ -25,7 +28,11 @@ export class ListPage {
                   isarrive:boolean,
                 }>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    public popctrl:PopoverController
+    ) {
     // If we navigated to this page, we will have an item available as a nav param
     this.selectedItem = navParams.get('item');
 
@@ -39,7 +46,7 @@ export class ListPage {
       streetm:'SECTOR SAN JACINTO Y',
       streets:'JULIO JARAMILLO',
       phonec:'0985940195',
-      timeC: new Date(),
+      timeC: new Date(2018, 10, 9, 23, 15),
       isarrive:false,
     },
     {
@@ -53,7 +60,7 @@ export class ListPage {
       obs:'CONJUNTO MONTECARLO "4"',
       phoneh:'2037295',
       phonec:'0985940195',
-      timeC: new Date(),
+      timeC: new Date(2018, 10, 9, 22, 10),
       isarrive:false,
     },
     {
@@ -66,7 +73,7 @@ export class ListPage {
       numhouse:'CASA 56',
       streets:'CONJ. LOS CAPULIES',
       phonec:'995540815',
-      timeC: new Date(),
+      timeC: new Date(2018, 10, 9, 22, 5),
       isarrive:true,
     },
     {
@@ -78,7 +85,7 @@ export class ListPage {
       streetm:'PUERTA DEL SOL',
       streets:'PARAISO',
       phonec:'990475553',
-      timeC: new Date(),
+      timeC: new Date(2018, 10, 9, 22, 30),
       isarrive:false,
     },
     {
@@ -93,13 +100,25 @@ export class ListPage {
       obs:'BARRIO RANCHO ALTO',
       phoneh:'3388161',
       phonec:'0991620736',
-      timeC: new Date(),
+      timeC: new Date(2018, 10, 9, 23, 50),
       isarrive:true,
     }
     ];
   }
 
-  personalchecked(i){
-    this.personal[i].isarrive=!this.personal[i].isarrive;
-  }
+ detallar(i){
+  const popover = this.popctrl.create(EmployeoverPage,{item:this.personal[i]},{});
+  popover.present();
+ }
+ personalchecked(i){
+  this.personal[i].isarrive=!this.personal[i].isarrive;
+ }
+ doRefresh(refresher) {
+  console.log('Begin async operation', refresher);
+
+  setTimeout(() => {
+    console.log('Async operation has ended');
+    refresher.complete();
+  }, 2000);
+}
 }
