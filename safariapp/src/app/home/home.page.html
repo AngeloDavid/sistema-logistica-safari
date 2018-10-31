@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">        
+        <ion-icon name="funnel"></ion-icon>
+        <ion-icon name="arrow-down"></ion-icon>        
+    </ion-buttons>
+    <ion-title>
+      Doble Via
+    </ion-title>
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div col-12 class="date">
+        {{dtoday.toDateString()}}
+  </div>
+<ion-grid class="ruta" >
+  <ion-row>
+    <ion-col col-6>
+      entrada
+    </ion-col>
+    <ion-col col-6>
+      6:00
+    </ion-col>
+    
+  </ion-row>
+</ion-grid>
+</ion-content>
