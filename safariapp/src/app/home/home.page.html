@@ -3,30 +3,74 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-buttons slot="end">        
+    <ion-buttons slot="end" (click)="morechange()">        
         <ion-icon name="funnel"></ion-icon>
-        <ion-icon name="arrow-down"></ion-icon>        
+        <ion-icon name="arrow-down" *ngIf="more" ></ion-icon>        
+        <ion-icon name="arrow-up" *ngIf="!more" ></ion-icon>        
     </ion-buttons>
     <ion-title>
-      Doble Via
+      DobleVia
     </ion-title>
     
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
   <div col-12 class="date">
         {{dtoday.toDateString()}}
   </div>
 <ion-grid class="ruta" >
-  <ion-row>
-    <ion-col col-6>
-      entrada
-    </ion-col>
-    <ion-col col-6>
-      6:00
-    </ion-col>
-    
-  </ion-row>
+    <ion-row *ngIf="more">
+      <ion-col col-2>
+      <img src="../../assets/img/user.png" style="height: 70px">
+      </ion-col>
+      <ion-col col-8>
+        <h3>Juan Luis</h3>
+        <p>Entrada</p>
+      </ion-col>
+      <ion-col col-2>
+        <h4>6:00</h4>
+        <p><ion-icon name="time"></ion-icon> 10:00:00 </p>
+      </ion-col>
+      
+    </ion-row>
+    <ion-row *ngIf="!more">
+        <ion-col col-6 >
+            <h3 class="entrada" >Entrada</h3>
+        </ion-col>
+        <ion-col col-6 class="endalign">
+            <h4>6:00</h4>
+        </ion-col>
+    </ion-row>  
+    <ion-row *ngIf="!more"  justify-content-center>
+        <ion-col col-2>
+            <img src="../../assets/img/user.png" style="height: 60px"><br>
+            <ion-button icon-start color="primary" size="small">
+                <ion-icon name="call" ></ion-icon>
+                
+            </ion-button>             
+            <ion-button  icon-start color="success" size="small">
+                <ion-icon name="logo-whatsapp"></ion-icon>      
+            </ion-button>             
+        </ion-col>
+        <ion-col col-8 class='startalign'>
+              <h4>Juan Luis</h4>
+              <p><ion-icon name="car"></ion-icon> PBC-044 <br>
+                <ion-icon name="radio-button-on"></ion-icon> Rojo <br>
+                <ion-icon name="radio"></ion-icon>C6<br> </p>
+            </ion-col>
+            <ion-col col-2>
+              <p>Tiempo de llegada</p>              
+              <p><ion-icon name="time"></ion-icon> 10:00:00 <br>
+                <ion-button  icon-start color="danger" size="small">
+                    <ion-icon name="close"></ion-icon>                
+                    Cancelar
+                </ion-button> </p>
+            </ion-col>
+    </ion-row> 
 </ion-grid>
+<ion-fab vertical="bottom" horizontal="start" slot="fixed" *ngIf="more">
+    <ion-fab-button>
+      <ion-icon name="car"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

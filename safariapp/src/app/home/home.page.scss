@@ -11,6 +11,20 @@ ion-toolbar{
 }
 .ruta{
     background-color: #f2f2f2;
-    height: 100px;
+    // height: 90px;
     text-align: center;
+}
+.entrada{
+    text-align: start;
+    border-bottom: 2px #322b2a solid;
+}
+.startalign{
+    text-align: start;
+}
+.endalign{
+    text-align: end;
+}
+h3,h4,p{
+    margin-bottom: 8px;
+    margin-top: 4px;
 }

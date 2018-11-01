@@ -8,4 +8,9 @@ import { Component } from '@angular/core';
 export class HomePage {
 
   dtoday: any = new Date();
+  more: Boolean = true;
+
+  morechange() {
+    this.more = !this.more;
+  }
 }
