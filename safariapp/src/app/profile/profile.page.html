@@ -33,7 +33,7 @@
       <ion-list-header color="light">
           <ion-label>Datos Personales</ion-label>
         </ion-list-header>
-      <ion-item *ngFor="let opt of listop; let i= index ; trackBy: customTrackBy" >
+      <ion-item *ngFor="let opt of listop; let i= index ;" >
         <ion-icon [name]="opt.icon" slot="start"></ion-icon>
         <ion-label position="stacked">{{ opt.descp }}</ion-label>
         <ion-input type="{{opt.type}}"   [(ngModel)]="opt.value" [disabled]='opt.isdisabled' [clearInput]= 'opt.optional' [required]="!opt.optional" ></ion-input>
@@ -42,13 +42,13 @@
   <ion-grid padding >
       <ion-row>
         <ion-col size="4">
-            <ion-button icon-start color="success" (click)="editar()" >
+            <ion-button icon-start color="primary" (click)="editar()" >
                 <ion-icon name="create"></ion-icon>
                 Editar
               </ion-button>
         </ion-col>
         <ion-col size="8">
-            <ion-button icon-start color="secondary">
+            <ion-button icon-start color="secondary" (click)="CambiarPwd()" >
                 <ion-icon name="key"></ion-icon>
                 Cambiar Contraseña
               </ion-button>

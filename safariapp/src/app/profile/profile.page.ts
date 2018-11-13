@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User, Optioninput } from '../../interfaces/index';
-import { type } from 'os';
+import { ModalController } from '@ionic/angular';
+import {MpChangePwdPage} from '../mp-change-pwd/mp-change-pwd.page';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -139,16 +140,13 @@ export class ProfilePage implements OnInit {
       optional: true
     },
   ];
-  constructor() { }
+  constructor( public modalController: ModalController) { }
 
   ngOnInit() {
   }
 
   MaysPrimera(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-  customTrackBy(index: number, obj: any): any {
-    return index;
   }
   NombreUnido(apellido: string, nombre: string) {
     return this.MaysPrimera(nombre.split(' ' , 1 )[0].toLowerCase()) + ' ' + this.MaysPrimera(apellido.split( ' ', 1)[0].toLowerCase());
@@ -162,5 +160,11 @@ export class ProfilePage implements OnInit {
     });
     console.log(this.user);
   }
-
+  async CambiarPwd() {
+    const modal = await this.modalController.create({
+      component: MpChangePwdPage,
+      componentProps: { value: 123 }
+    });
+    return await modal.present();
+  }
 }

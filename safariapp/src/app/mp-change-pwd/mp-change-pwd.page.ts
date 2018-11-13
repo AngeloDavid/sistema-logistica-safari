@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-mp-change-pwd',
@@ -6,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./mp-change-pwd.page.scss'],
 })
 export class MpChangePwdPage implements OnInit {
-
-  constructor() { }
+  constructor(public mctrl: ModalController) { }
 
   ngOnInit() {
-  }
 
+  }
+  dismiss() {
+    this.mctrl.dismiss();
+  }
 }
