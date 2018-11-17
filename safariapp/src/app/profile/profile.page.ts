@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User, Optioninput } from '../../interfaces/index';
-import { ModalController } from '@ionic/angular';
+import { ModalController, AlertController } from '@ionic/angular';
 import {MpChangePwdPage} from '../mp-change-pwd/mp-change-pwd.page';
 @Component({
   selector: 'app-profile',
@@ -140,7 +140,7 @@ export class ProfilePage implements OnInit {
       optional: true
     },
   ];
-  constructor( public modalController: ModalController) { }
+  constructor( public modalController: ModalController, public alertCtrl: AlertController) { }
 
   ngOnInit() {
   }
@@ -152,12 +152,18 @@ export class ProfilePage implements OnInit {
     return this.MaysPrimera(nombre.split(' ' , 1 )[0].toLowerCase()) + ' ' + this.MaysPrimera(apellido.split( ' ', 1)[0].toLowerCase());
   }
   editar() {
-    this.guardardatos();
+    this.presentAlertConfirm();
   }
-  guardardatos() {
-    this.listop.forEach(opt => {
-      this.user[opt.model] = opt.value;
-    });
+  guardardatos(action: string) {
+    if ( action === 'send') {
+      this.listop.forEach(opt => {
+        this.user[opt.model] = opt.value;
+      });
+    } else {
+      this.listop.forEach(opt => {
+        opt.value = this.user[opt.model];
+      });
+    }
     console.log(this.user);
   }
   async CambiarPwd() {
@@ -166,5 +172,31 @@ export class ProfilePage implements OnInit {
       componentProps: { value: 123 }
     });
     return await modal.present();
+  }
+  async presentAlertConfirm() {
+    const alert = await this.alertCtrl.create({
+      subHeader: '¿Desea Actualizar sus datos?',
+      /*message: '¿Desea Actualizar sus datos?',*/
+      mode: 'ios',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+            this.guardardatos('recive');
+          }
+        }, {
+          text: 'Si',
+          handler: () => {
+            console.log('Confirm Okay');
+            this.guardardatos('send');
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 }

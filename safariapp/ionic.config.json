@@ -1,5 +1,7 @@
 {
   "name": "safariapp",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
