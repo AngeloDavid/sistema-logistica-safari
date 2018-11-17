@@ -31,6 +31,7 @@ export class AppComponent {
       icon: 'log-out'
     }
   ];
+  user: any ;
 
   constructor(
     private platform: Platform,
@@ -38,6 +39,12 @@ export class AppComponent {
     private statusBar: StatusBar
   ) {
     this.initializeApp();
+
+    this.user = {
+      name: 'VICTOR GONZALO',
+      lastname: 'GUALOTO SANGUÑA',
+      code: 'C6',
+    };
   }
 
   initializeApp() {

@@ -8,6 +8,29 @@
       </ion-header>
       <ion-content>
         <ion-list>
+          <ion-menu-toggle>
+              <ion-item [routerDirection]="'root'" [routerLink]="[appPages[2].url]">
+                <ion-grid>
+                  <ion-row align-items-center >
+                      <ion-col>
+                        <div text-center>
+                          <img src="assets/img/user.png" style="width: 140px;padding-top: 6%">
+                        </div>
+                      </ion-col>                 
+                    </ion-row>
+                    <ion-row>
+                      <ion-col>
+                        <div text-center>
+                          <h2 no-margin>Katy Lopez</h2>
+                          <p no-margin>Ace Seguros</p>
+                        </div>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                </ion-item>                
+          </ion-menu-toggle>
+            
+          
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
             <ion-item [routerDirection]="'root'" [routerLink]="[p.url]">
               <ion-icon slot="start" [name]="p.icon"></ion-icon>
