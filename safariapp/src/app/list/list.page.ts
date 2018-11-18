@@ -14,6 +14,8 @@ export class ListPage implements OnInit {
   currentMonth: any;
   currentYear: any;
   currentDate: any;
+  selectedEvent: any;
+  isSelected: any;
     constructor() {
       this.monthNames = ['Ene', 'Feb', 'Mar', 'Apr' , 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct' , 'Nov', 'Dec'];
       this.date = new Date ();
@@ -61,5 +63,11 @@ export class ListPage implements OnInit {
   goToNextMonth() {
     this.date = new Date(this.date.getFullYear(), this.date.getMonth() + 2, 0);
     this.getDaysOfMonth();
+  }
+  selectDate(day) {
+    this.isSelected = false;
+    this.selectedEvent = new Array();
+    const thisDate1 = this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + '00:00:00';
+    const thisDate2 = this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + '23:59:59';
   }
 }
