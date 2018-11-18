@@ -6,34 +6,60 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['list.page.scss']
 })
 export class ListPage implements OnInit {
-  private selectedItem: any;
-  private icons = [
-    'flask',
-    'wifi',
-    'beer',
-    'football',
-    'basketball',
-    'paper-plane',
-    'american-football',
-    'boat',
-    'bluetooth',
-    'build'
-  ];
-  public items: Array<{ title: string; note: string; icon: string }> = [];
-  constructor() {
-    for (let i = 1; i < 11; i++) {
-      this.items.push({
-        title: 'Item ' + i,
-        note: 'This is item #' + i,
-        icon: this.icons[Math.floor(Math.random() * this.icons.length)]
-      });
-    }
-  }
+  date: any;
+  daysInThisMonth: any;
+  daysInLastMonth: any;
+  daysInNextMonth: any;
+  monthNames: string[];
+  currentMonth: any;
+  currentYear: any;
+  currentDate: any;
+    constructor() {
+      this.monthNames = ['Ene', 'Feb', 'Mar', 'Apr' , 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct' , 'Nov', 'Dec'];
+      this.date = new Date ();
+           this.getDaysOfMonth();
+     }
 
   ngOnInit() {
   }
-  // add back when alpha.4 is out
-  // navigate(item) {
-  //   this.router.navigate(['/list', JSON.stringify(item)]);
-  // }
+  getDaysOfMonth() {
+    this.daysInThisMonth = new Array();
+    this.daysInLastMonth = new Array();
+    this.daysInNextMonth = new Array();
+    this.currentMonth = this.monthNames[this.date.getMonth()];
+    this.currentYear = this.date.getFullYear();
+    if (this.date.getMonth() === new Date().getMonth()) {
+      this.currentDate = new Date().getDate();
+    } else {
+      this.currentDate = 999;
+    }
+    const firstDayThisMonth = new Date(this.date.getFullYear(), this.date.getMonth(), 1).getDay();
+    const prevNumOfDays = new Date(this.date.getFullYear(), this.date.getMonth(), 0).getDate();
+    for ( let i = prevNumOfDays - (firstDayThisMonth - 1); i <= prevNumOfDays; i++) {
+      this.daysInLastMonth.push(i);
+    }
+    const thisNumOfDays = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0).getDate();
+    for (let i = 0; i < thisNumOfDays; i++) {
+      this.daysInThisMonth.push(i + 1);
+    }
+    const lastDayThisMonth = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0).getDay();
+    const nextNumOfDays = new Date(this.date.getFullYear(), this.date.getMonth() + 2, 0).getDate();
+    for (let i = 0; i < ( 6 - lastDayThisMonth); i++) {
+      this.daysInNextMonth.push( i + 1);
+    }
+    const totalDays = this.daysInLastMonth.length + this.daysInThisMonth.length + this.daysInNextMonth.length;
+    if ( totalDays < 36) {
+      for ( let i = (7 - lastDayThisMonth); i < ((7 - lastDayThisMonth) + 7); i++) {
+        this.daysInNextMonth.push(i);
+      }
+    }
+  }
+  goToLastMonth() {
+    this.date = new Date(this.date.getFullYear(), this.date.getMonth(), 0);
+    this.getDaysOfMonth();
+  }
+  goToNextMonth() {
+    this.date = new Date(this.date.getFullYear(), this.date.getMonth() + 2, 0);
+    this.getDaysOfMonth();
+  }
 }

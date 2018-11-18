@@ -1,5 +1,4 @@
 import {MpChangePwdPage } from './mp-change-pwd/mp-change-pwd.page';
-import {MpChangePwdPageModule} from './mp-change-pwd/mp-change-pwd.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -19,7 +18,7 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserModule,
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [
     StatusBar,
