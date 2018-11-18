@@ -1,3 +1,5 @@
+import {MpChangePwdPage } from './mp-change-pwd/mp-change-pwd.page';
+import {MpChangePwdPageModule} from './mp-change-pwd/mp-change-pwd.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -8,12 +10,11 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 
 import { AppComponent } from './app.component';
-import { MpChangePwdPage } from '../app/mp-change-pwd/mp-change-pwd.page';
 import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [AppComponent, MpChangePwdPage],
-  entryComponents: [],
+  entryComponents: [ MpChangePwdPage],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
@@ -25,6 +26,6 @@ import { AppRoutingModule } from './app-routing.module';
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
-  bootstrap: [AppComponent, MpChangePwdPage]
+  bootstrap: [AppComponent/*, MpChangePwdPage*/]
 })
 export class AppModule {}

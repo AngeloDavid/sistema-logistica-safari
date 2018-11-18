@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { User, Optioninput } from '../../interfaces/index';
-import { ModalController, AlertController } from '@ionic/angular';
+import { ModalController, AlertController, Events } from '@ionic/angular';
 import {MpChangePwdPage} from '../mp-change-pwd/mp-change-pwd.page';
+import { Storage } from '@ionic/storage';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -10,139 +11,148 @@ import {MpChangePwdPage} from '../mp-change-pwd/mp-change-pwd.page';
 export class ProfilePage implements OnInit {
 
   user: User = {
-    CODIGO_CLIE: '0010001',
-    CODIGO_NOMINA: '0010001',
-    APELLIDOS: 'LOPEZ VALLE',
-    NOMBRES: 'KATHERINE ALEXANDRA',
-    AREA_TRABAJO: 'SAC',
-    BARRIO: 'KENEDY',
-    CALLE_PRINCIPAL: 'DE  LOS JAZMINES',
-    NUM_CASA: 'N52-418',
-    CALLE_SECUNDARIA: 'CAPITAN RAMON BORJA Y LOS PINOS ',
-    REFERENCIA: 'ESQUINERO  SOBRE  LOS  JAZMINES  ANTES DE  LLEGAR AL CONJUNTO BRASILIA 1',
-    FONO_CELULAR: '0983346578',
-    RUTA: '0010003',
-    USUARIO_APP: '0502336548',
-    PASSWD_APP: '0502336548',
-    EMAIL: 'fabianjacho@gmail.com',
-    CAMBIAR_PASSWD: 'S',
+    CODIGO_CLIE: '',
+    CODIGO_NOMINA: '',
+    APELLIDOS: '',
+    NOMBRES: '',
+    AREA_TRABAJO: '',
+    BARRIO: '',
+    CALLE_PRINCIPAL: '',
+    NUM_CASA: '',
+    CALLE_SECUNDARIA: '',
+    REFERENCIA: '',
+    FONO_CELULAR: '',
+    RUTA: '',
+    USUARIO_APP: '',
+    PASSWD_APP: '',
+    EMAIL: '',
+    CAMBIAR_PASSWD: '',
   };
 
-  listop: Optioninput [] = [
-    {
-      id: 1,
-      tipo: 'input',
-      type: 'text',
-      descp: 'Nombres',
-      value: this.user.NOMBRES,
-      icon: 'person',
-      model: 'NOMBRES',
-      isdisabled: false,
-      optional: false
-    },
-    {
-      id: 1,
-      tipo: 'input',
-      type: 'text',
-      descp: 'Apellidos',
-      value: this.user.APELLIDOS,
-      icon: '',
-      model: 'APELLIDOS',
-      isdisabled: false,
-      optional: false
-    },
-    {
-      id: 1,
-      tipo: 'input',
-      type: 'tel',
-      descp: 'Celular',
-      value: this.user.FONO_CELULAR,
-      icon: 'phone-portrait',
-      model: 'FONO_CELULAR',
-      isdisabled: false,
-      optional: false
-    },
-    {
-      id: 2,
-      tipo: 'input',
-      type: 'tel',
-      descp: 'Telefono Casa',
-      value: this.user.FONO_CASA,
-      icon: 'call',
-      model: 'FONO_CASA',
-      isdisabled: false,
-      optional: true
-    },
-    {
-      id: 3,
-      tipo: 'input',
-      type: 'email',
-      descp: 'E-mail',
-      value: this.user.EMAIL,
-      icon: 'mail',
-      model: 'EMAIL',
-      isdisabled: false,
-      optional: false
-    },
-    {
-      id: 4,
-      tipo: 'input',
-      type: 'text',
-      descp: 'Barrio',
-      value: this.user.BARRIO,
-      icon: 'business',
-      model: 'BARRIO',
-      isdisabled: false,
-      optional: false
-    },
-    {
-      id: 5,
-      tipo: 'input',
-      type: 'text',
-      descp: 'Calle Principal',
-      value: this.user.CALLE_PRINCIPAL,
-      icon: 'home',
-      model: 'CALLE_PRINCIPAL',
-      isdisabled: false,
-      optional: false
-    },
-    {
-      id: 6,
-      tipo: 'input',
-      type: 'text',
-      descp: 'Número Casa',
-      value: this.user.NUM_CASA,
-      icon: '',
-      model: 'NUM_CASA',
-      isdisabled: false,
-      optional: true
-    },
-    {
-      id: 7,
-      tipo: 'input',
-      type: 'text',
-      descp: 'Calle Secundaria',
-      value: this.user.CALLE_SECUNDARIA,
-      icon: '',
-      model: 'CALLE_SECUNDARIA',
-      isdisabled: false,
-      optional: true
-    },
-    {
-      id: 8,
-      tipo: 'input',
-      type: 'text',
-      descp: 'Referencia',
-      value: this.user.REFERENCIA,
-      icon: '',
-      model: 'REFERENCIA',
-      isdisabled: false,
-      optional: true
-    },
-  ];
-  constructor( public modalController: ModalController, public alertCtrl: AlertController) { }
+  listop: Optioninput [] = [ ];
+  constructor( public modalController: ModalController,
+               public alertCtrl: AlertController,
+              public events: Events, private storage: Storage) {
+                this.storage.get('userlogin').then( (val) => {
+                  console.log(val);
+                  this.user = val;
+                  this.listop = [
+                    {
+                      id: 1,
+                      tipo: 'input',
+                      type: 'text',
+                      descp: 'Nombres',
+                      value: this.user.NOMBRES,
+                      icon: 'person',
+                      model: 'NOMBRES',
+                      isdisabled: false,
+                      optional: false
+                    },
+                    {
+                      id: 1,
+                      tipo: 'input',
+                      type: 'text',
+                      descp: 'Apellidos',
+                      value: this.user.APELLIDOS,
+                      icon: '',
+                      model: 'APELLIDOS',
+                      isdisabled: false,
+                      optional: false
+                    },
+                    {
+                      id: 1,
+                      tipo: 'input',
+                      type: 'tel',
+                      descp: 'Celular',
+                      value: this.user.FONO_CELULAR,
+                      icon: 'phone-portrait',
+                      model: 'FONO_CELULAR',
+                      isdisabled: false,
+                      optional: false
+                    },
+                    {
+                      id: 2,
+                      tipo: 'input',
+                      type: 'tel',
+                      descp: 'Telefono Casa',
+                      value: this.user.FONO_CASA,
+                      icon: 'call',
+                      model: 'FONO_CASA',
+                      isdisabled: false,
+                      optional: true
+                    },
+                    {
+                      id: 3,
+                      tipo: 'input',
+                      type: 'email',
+                      descp: 'E-mail',
+                      value: this.user.EMAIL,
+                      icon: 'mail',
+                      model: 'EMAIL',
+                      isdisabled: false,
+                      optional: false
+                    },
+                    {
+                      id: 4,
+                      tipo: 'input',
+                      type: 'text',
+                      descp: 'Barrio',
+                      value: this.user.BARRIO,
+                      icon: 'business',
+                      model: 'BARRIO',
+                      isdisabled: false,
+                      optional: false
+                    },
+                    {
+                      id: 5,
+                      tipo: 'input',
+                      type: 'text',
+                      descp: 'Calle Principal',
+                      value: this.user.CALLE_PRINCIPAL,
+                      icon: 'home',
+                      model: 'CALLE_PRINCIPAL',
+                      isdisabled: false,
+                      optional: false
+                    },
+                    {
+                      id: 6,
+                      tipo: 'input',
+                      type: 'text',
+                      descp: 'Número Casa',
+                      value: this.user.NUM_CASA,
+                      icon: '',
+                      model: 'NUM_CASA',
+                      isdisabled: false,
+                      optional: true
+                    },
+                    {
+                      id: 7,
+                      tipo: 'input',
+                      type: 'text',
+                      descp: 'Calle Secundaria',
+                      value: this.user.CALLE_SECUNDARIA,
+                      icon: '',
+                      model: 'CALLE_SECUNDARIA',
+                      isdisabled: false,
+                      optional: true
+                    },
+                    {
+                      id: 8,
+                      tipo: 'input',
+                      type: 'text',
+                      descp: 'Referencia',
+                      value: this.user.REFERENCIA,
+                      icon: '',
+                      model: 'REFERENCIA',
+                      isdisabled: false,
+                      optional: true
+                    }
+                  ];
+                });
+   }
 
   ngOnInit() {
+    console.log('Hola perfil');
   }
 
   MaysPrimera(string) {
@@ -156,9 +166,13 @@ export class ProfilePage implements OnInit {
   }
   guardardatos(action: string) {
     if ( action === 'send') {
+      // CAMBIAR DATOS VARIABLES
       this.listop.forEach(opt => {
         this.user[opt.model] = opt.value;
       });
+      // CAMBIAR DATOS VARIABLES GLOBAL
+      this.storage.set('userlogin', this.user);
+      this.events.publish('userlogin', this.user);
     } else {
       this.listop.forEach(opt => {
         opt.value = this.user[opt.model];
