@@ -16,7 +16,8 @@ const routes: Routes = [
     loadChildren: './list/list.module#ListPageModule'
   },
   { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
-  { path: 'mpChangePwd', loadChildren: './mp-change-pwd/mp-change-pwd.module#MpChangePwdPageModule' }
+  { path: 'mpChangePwd', loadChildren: './mp-change-pwd/mp-change-pwd.module#MpChangePwdPageModule' },
+  { path: 'addroute', loadChildren: './addroute/addroute.module#AddroutePageModule' }
 ];
 
 @NgModule({

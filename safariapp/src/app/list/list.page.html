@@ -4,44 +4,97 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-buttons slot="end">        
-        <ion-icon name="cloud-download"></ion-icon>     
+        <ion-icon name="refresh"></ion-icon>     
     </ion-buttons>
     <ion-title>
       Recoridos
     </ion-title>
   </ion-toolbar>
+  <div padding  >
+      <div class="calendar-header">
+          <ion-grid>
+              <ion-row class="calendar-month">
+                  <ion-col col-2 (click)="goToLastMonth()"><ion-icon name="arrow-dropleft-circle"></ion-icon></ion-col>
+                  <ion-col col-8 text-center>{{currentMonth}} {{currentYear}}</ion-col>
+                  <ion-col col-2 (click)="goToNextMonth()" text-right ><ion-icon name="arrow-dropright-circle"></ion-icon></ion-col>
+                </ion-row>
+          </ion-grid>        
+        </div>
+        <div class="calendar-body">
+            <ion-grid>
+              <ion-row class="calendar-weekday">
+                <ion-col>Do</ion-col>
+                <ion-col>Lu</ion-col>
+                <ion-col>Ma</ion-col>
+                <ion-col>Mi</ion-col>
+                <ion-col>Ju</ion-col>
+                <ion-col>Vi</ion-col>
+                <ion-col>Sa</ion-col>
+              </ion-row>
+              <ion-row class="calendar-date">
+                <ion-col col-1 *ngFor="let lastDay of daysInLastMonth" class="last-month">{{lastDay}}</ion-col>
+                <ion-col col-1 *ngFor="let day of daysInThisMonth" >
+                  <span class="currentDate" *ngIf="currentDate === day; else otherDate">{{day}}</span>
+                  <ng-template #otherDate class="otherDate">{{day}}</ng-template>
+                </ion-col>
+                <ion-col col-1 *ngFor="let nextDay of daysInNextMonth" class="next-month">{{nextDay}}</ion-col>
+              </ion-row>
+            </ion-grid>
+        </div>
+  </div>
 </ion-header>
 
 <ion-content padding>
-    <div class="calendar-header">
-      <ion-grid>
-          <ion-row class="calendar-month">
-              <ion-col col-2 (click)="goToLastMonth()"><ion-icon name="arrow-dropleft-circle"></ion-icon></ion-col>
-              <ion-col col-8 text-center>{{currentMonth}} {{currentYear}}</ion-col>
-              <ion-col col-2 (click)="goToNextMonth()" text-right ><ion-icon name="arrow-dropright-circle"></ion-icon></ion-col>
-            </ion-row>
-      </ion-grid>        
-      </div>
-      <div class="calendar-body">
-        <ion-grid>
-          <ion-row class="calendar-weekday">
-            <ion-col>Do</ion-col>
-            <ion-col>Lu</ion-col>
-            <ion-col>Ma</ion-col>
-            <ion-col>Mi</ion-col>
-            <ion-col>Ju</ion-col>
-            <ion-col>Vi</ion-col>
-            <ion-col>Sa</ion-col>
-          </ion-row>
-          <ion-row class="calendar-date">
-            <ion-col col-1 *ngFor="let lastDay of daysInLastMonth" class="last-month">{{lastDay}}</ion-col>
-            <ion-col col-1 *ngFor="let day of daysInThisMonth"  (click)="selectDate(day)" >
-              <span class="currentDate" *ngIf="currentDate === day; else otherDate">{{day}}</span>
-              <ng-template #otherDate class="otherDate">{{day}}</ng-template>
-            </ion-col>
-            <ion-col col-1 *ngFor="let nextDay of daysInNextMonth" class="next-month">{{nextDay}}</ion-col>
-          </ion-row>
-        </ion-grid>
-      </div>
   
+    <div>
+        <ion-card >
+            <ion-card-header>
+              <ion-grid>
+                <ion-row no-padding>
+                  <ion-col size="7" no-padding >
+                      <ion-card-subtitle>Ingreso</ion-card-subtitle>
+                      <ion-card-title>06: 50</ion-card-title>
+                  </ion-col>                    
+                  <ion-col size="5" no-padding >
+                    <ion-row align-items-end no-padding >
+                      <ion-col no-padding text-center>
+                          <ion-button  fill="outline" shape="round" size="small"><ion-icon name="build"></ion-icon></ion-button>
+                          <ion-button   shape="round" fill="outline" color="danger" size="small" ><ion-icon name="close"></ion-icon></ion-button>                          
+                      </ion-col>                      
+                    </ion-row>                                
+                  </ion-col>
+                </ion-row>                
+              </ion-grid>              
+            </ion-card-header>
+          
+            <ion-card-content padding-horizontal >
+              <ion-list>
+                  <ion-item-divider>
+                      <ion-label>Información del Viaje</ion-label>
+                    </ion-item-divider>
+                  <ion-item class="activated">
+                      <ion-icon name="Person" slot="start"></ion-icon>
+                      <ion-label>Conductor</ion-label>
+                    </ion-item>                
+                    <ion-item >
+                      <ion-icon name="car" slot="start"></ion-icon>
+                      <ion-label>Placa</ion-label>
+                    </ion-item>                  
+                    <ion-item class="activated">
+                      <ion-icon name="clock" slot="start"></ion-icon>
+                      <ion-label>Hora de llegada</ion-label>
+                    </ion-item>                  
+                    <ion-item>
+                      <ion-icon name="star" slot="start"></ion-icon>
+                      <ion-label>Clasificacion</ion-label>
+                    </ion-item>
+              </ion-list>                
+            </ion-card-content>
+          </ion-card>   
+    </div>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="gotoaddRoute()">        
+        <ion-fab-button >
+            <ion-icon name="create"></ion-icon>
+        </ion-fab-button>        
+  </ion-fab>
 </ion-content>

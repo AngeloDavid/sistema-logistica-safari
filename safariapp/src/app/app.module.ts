@@ -1,4 +1,5 @@
 import {MpChangePwdPage } from './mp-change-pwd/mp-change-pwd.page';
+
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -10,6 +11,7 @@ import { IonicStorageModule } from '@ionic/storage';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { Calendar } from '@ionic-native/calendar/ngx';
 
 @NgModule({
   declarations: [AppComponent, MpChangePwdPage],
@@ -23,8 +25,9 @@ import { AppRoutingModule } from './app-routing.module';
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    Calendar
   ],
-  bootstrap: [AppComponent/*, MpChangePwdPage*/]
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

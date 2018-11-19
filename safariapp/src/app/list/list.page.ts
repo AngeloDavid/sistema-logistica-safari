@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Calendar } from '@ionic-native/calendar/ngx';
+import {AlertController} from '@ionic/angular';
 
 @Component({
   selector: 'app-list',
@@ -6,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['list.page.scss']
 })
 export class ListPage implements OnInit {
+
   date: any;
   daysInThisMonth: any;
   daysInLastMonth: any;
@@ -14,16 +18,24 @@ export class ListPage implements OnInit {
   currentMonth: any;
   currentYear: any;
   currentDate: any;
+  eventList: any;
   selectedEvent: any;
   isSelected: any;
-    constructor() {
+
+  constructor(private router: Router, private alertCtrl: AlertController, private calendar: Calendar) {
       this.monthNames = ['Ene', 'Feb', 'Mar', 'Apr' , 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct' , 'Nov', 'Dec'];
       this.date = new Date ();
-           this.getDaysOfMonth();
+      this.getDaysOfMonth();
      }
 
   ngOnInit() {
   }
+
+  gotoaddRoute() {
+    this.router.navigate(['/addroute']);
+   }
+
+  // metodos calendario
   getDaysOfMonth() {
     this.daysInThisMonth = new Array();
     this.daysInLastMonth = new Array();
@@ -64,10 +76,47 @@ export class ListPage implements OnInit {
     this.date = new Date(this.date.getFullYear(), this.date.getMonth() + 2, 0);
     this.getDaysOfMonth();
   }
+
+  loadEventThisMonth() {
+    this.eventList = new Array();
+    const startDate = new Date(this.date.getFullYear(), this.date.getMonth(), 1);
+    const endDate = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0);
+    this.calendar.listEventsInRange(startDate, endDate).then(
+      (msg) => {
+        msg.forEach(item => {
+          this.eventList.push(item);
+        });
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
+  checkEvent(day) {
+    let hasEvent = false;
+    const thisDate1 = this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + ' 00:00:00';
+    const thisDate2 = this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + '23:59:59';
+    this.eventList.forEach(event => {
+      if (((event.startDate >= thisDate1) && (event.startDate <= thisDate2)) ||
+       ((event.endDate >= thisDate1) && (event.endDate <= thisDate2))) {
+        hasEvent = true;
+      }
+    });
+    return hasEvent;
+  }
+
   selectDate(day) {
     this.isSelected = false;
     this.selectedEvent = new Array();
-    const thisDate1 = this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + '00:00:00';
-    const thisDate2 = this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + '23:59:59';
+    const thisDate1 = this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + ' 00:00:00';
+    const thisDate2 = this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + ' 23:59:59';
+    this.eventList.forEach(event => {
+      if (((event.startDate >= thisDate1) && (event.startDate <= thisDate2))
+       || ((event.endDate >= thisDate1) && (event.endDate <= thisDate2))) {
+        this.isSelected = true;
+        this.selectedEvent.push(event);
+      }
+    });
   }
+
 }
