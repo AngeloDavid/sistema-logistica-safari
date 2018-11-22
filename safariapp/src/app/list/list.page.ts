@@ -137,7 +137,7 @@ export class ListPage implements OnInit {
         {
           text: 'Ok',
           handler: () => {
-            this.calendar.deleteEvent(evt.title, evt.location, evt.notes, 
+            this.calendar.deleteEvent(evt.title, evt.location, evt.notes,
               new Date(evt.startDate.replace(/\s/, 'T')), new Date(evt.endDate.replace(/\s/, 'T'))).then(
               (msg) => {
                 console.log(msg);
