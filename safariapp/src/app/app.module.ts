@@ -18,7 +18,10 @@ import { Calendar } from '@ionic-native/calendar/ngx';
   entryComponents: [ MpChangePwdPage],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot(  {
+      scrollPadding: 'false',
+      scrollAssist: true,
+     }),
     IonicStorageModule.forRoot(),
     AppRoutingModule,
   ],

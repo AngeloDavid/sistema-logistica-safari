@@ -26,6 +26,7 @@ export class ListPage implements OnInit {
       this.monthNames = ['Ene', 'Feb', 'Mar', 'Apr' , 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct' , 'Nov', 'Dec'];
       this.date = new Date ();
       this.getDaysOfMonth();
+      this.loadEventThisMonth();
      }
 
   ngOnInit() {
@@ -116,6 +117,40 @@ export class ListPage implements OnInit {
         this.isSelected = true;
         this.selectedEvent.push(event);
       }
+    });
+  }
+
+   async deleteEvent(evt) {
+    // console.log(new Date(evt.startDate.replace(/\s/, 'T')));
+    // console.log(new Date(evt.endDate.replace(/\s/, 'T')));
+    const alert = this.alertCtrl.create({
+      header: 'Confirm Delete',
+      message: 'Are you sure want to delete this event?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Ok',
+          handler: () => {
+            this.calendar.deleteEvent(evt.title, evt.location, evt.notes, 
+              new Date(evt.startDate.replace(/\s/, 'T')), new Date(evt.endDate.replace(/\s/, 'T'))).then(
+              (msg) => {
+                console.log(msg);
+                this.loadEventThisMonth();
+                this.selectDate(new Date(evt.startDate.replace(/\s/, 'T')).getDate());
+              },
+              (err) => {
+                console.log(err);
+              }
+            );
+          }
+        }
+      ]
     });
   }
 

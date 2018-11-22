@@ -25,14 +25,14 @@
       border-radius: 30px;
     }
     .calendar-header {
-      background-color: #1a732d;
+      background-color: #21196e;
       color: #FFFFFF;
     }
     .event-bullet {
       margin: 2px auto;
       height: 5px;
       width: 5px;
-      background-color: green;
+      background-color: #54419d;
       border-radius: 30px;
     }
     .selected-date {
@@ -56,12 +56,13 @@
       }
       .calendar-weekday {
         font-weight: bold;
-        border-bottom: solid 1px #1a732d;
-        background-color: #26ab56;
+        border-bottom: solid 1px #21196e;
+        background-color: #28256b;
+        color: #FFFFFF;
       }
       .calendar-date {
-        border-top: solid 1px #1a732d;
-        border-bottom: solid 1px #1a732d;
+        border-top: solid 1px #21196e;
+        border-bottom: solid 1px #21196e;
       }
     }
     ion-header{

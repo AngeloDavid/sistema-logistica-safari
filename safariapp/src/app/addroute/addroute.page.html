@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar color="danger">
       <ion-buttons slot="start" (click)="gotoaddRoute()" >
-          <ion-button goBack >
+          <ion-button router-direction="back" >
               <ion-icon slot="icon-only" name="close"></ion-icon>
           </ion-button>      
       </ion-buttons>
-    <ion-title>Nuevo Recorido</ion-title>
+    <ion-title>Progrmar Recorido</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -17,18 +17,21 @@
               <ion-label position="stacked" >Fecha</ion-label>
               <ion-datetime display-format="DD/MMM/YYYY" cancelText="Cancelar" doneText="Guardar"
               monthShortNames="Ene, Feb, Mar, Apr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic"
-              [value]="datenow.toISOString()"
+              [(ngModel)]="logistica.FECHA_LOG" name="logistica.FECHA_LOG" mode="ios"
               ></ion-datetime>
           </ion-item>
           <ion-item>
               <ion-icon name="time" slot="start"></ion-icon>
               <ion-label position="stacked" >hora</ion-label>
-              <ion-datetime display-format="HH:mm A" [value]="datenow.toISOString()" cancelText="Cancelar" doneText="Guardar"></ion-datetime>
+              <ion-datetime display-format="hh:mm A"  doneText="Guardar" cancelText="Cancelar"
+              [(ngModel)]="logistica.TURNO_LOG" name="logistica.TURNO_LOG"  mode="ios"
+              ></ion-datetime>
           </ion-item>
           <ion-item>
               <ion-icon name="git-compare" slot="start"></ion-icon>
               <ion-label position="stacked" >Tipo de Viaje</ion-label>
-              <ion-select value="I" ok-text="Guardar" cancel-text="Cancelar" interface="popover" >
+              <ion-select  ok-text="Guardar" cancel-text="Cancelar"
+                 interface="popover" [(ngModel)]="logistica.TIPO" name="logistica.TIPO" >
                   <ion-select-option value="I">Ingreso</ion-select-option>
                   <ion-select-option value="S">Salida</ion-select-option>              
               </ion-select>
@@ -36,10 +39,12 @@
           <ion-item>
               <ion-icon name="list-box" slot="start"></ion-icon>
               <ion-label position="stacked" >Mensaje</ion-label>
-              <ion-textarea rows="4" cols="20" placeholder="Rerefencias del lugar" clearOnEdit="true" ></ion-textarea>
+              <ion-textarea rows="4" cols="20" placeholder="Rerefencias del lugar" 
+              clearOnEdit="true" [(ngModel)]="logistica.OBSERVACION_CLIENTE" name="logistica.OBSERVACION_CLIENTE"
+              ></ion-textarea>
           </ion-item>
         </ion-list>
-        <ion-button icon-start  color="primary" expand="full" size="large">                  
+        <ion-button icon-start  color="primary" expand="full" size="large"  type="submit">                  
             <ion-icon name="send"></ion-icon>
             Enviar
           </ion-button>
