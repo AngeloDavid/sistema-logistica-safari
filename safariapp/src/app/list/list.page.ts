@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Calendar } from '@ionic-native/calendar/ngx';
 import {AlertController} from '@ionic/angular';
+import { Storage } from '@ionic/storage';
+import { Logistic } from '../../interfaces/index';
+
 
 @Component({
   selector: 'app-list',
@@ -22,7 +25,8 @@ export class ListPage implements OnInit {
   selectedEvent: any;
   isSelected: any;
 
-  constructor(private router: Router, private alertCtrl: AlertController, private calendar: Calendar) {
+  constructor(private router: Router, private alertCtrl: AlertController,
+    private calendar: Calendar, private storage: Storage ) {
       this.monthNames = ['Ene', 'Feb', 'Mar', 'Apr' , 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct' , 'Nov', 'Dec'];
       this.date = new Date ();
       this.getDaysOfMonth();
@@ -80,7 +84,14 @@ export class ListPage implements OnInit {
 
   loadEventThisMonth() {
     this.eventList = new Array();
-    const startDate = new Date(this.date.getFullYear(), this.date.getMonth(), 1);
+    this.storage.get('listlog').then( (val) => {
+      this.eventList = val;
+      console.log(this.eventList, 'Evento');
+      this.selectDate(this.date.getDate());
+     });
+
+    // llamar los recoridos por mes
+    /*const startDate = new Date(this.date.getFullYear(), this.date.getMonth(), 1);
     const endDate = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0);
     this.calendar.listEventsInRange(startDate, endDate).then(
       (msg) => {
@@ -91,67 +102,84 @@ export class ListPage implements OnInit {
       (err) => {
         console.log(err);
       }
-    );
+    );*/
+  }
+  StringtoDate(value) {
+    return new Date (value);
   }
   checkEvent(day) {
     let hasEvent = false;
-    const thisDate1 = this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + ' 00:00:00';
-    const thisDate2 = this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + '23:59:59';
-    this.eventList.forEach(event => {
+    const thisDate1 = new Date ( this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + ' 00:00:00');
+    const thisDate2 = new Date ( this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + ' 23:59:59');
+    this.eventList.forEach(et => {
+      if (( new Date(et.FECHA_LOG)  >= thisDate1) && ( new Date (et.FECHA_LOG) <= thisDate2)) {
+        hasEvent = true;
+      }
+    });
+    // comprobar eventos por dia
+    /*this.eventList.forEach(event => {
       if (((event.startDate >= thisDate1) && (event.startDate <= thisDate2)) ||
        ((event.endDate >= thisDate1) && (event.endDate <= thisDate2))) {
         hasEvent = true;
       }
-    });
+    });*/
     return hasEvent;
   }
 
   selectDate(day) {
     this.isSelected = false;
     this.selectedEvent = new Array();
-    const thisDate1 = this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + ' 00:00:00';
-    const thisDate2 = this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + ' 23:59:59';
+    const thisDate1 = new Date ( this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + ' 00:00:00');
+    const thisDate2 = new Date ( this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + ' 23:59:59');
+    this.eventList.forEach(et => {
+      // console.log(this.date, 'hoy');
+      // console.log(typeof  et.FECHA_LOG);
+      // console.log( new Date (et.FECHA_LOG), thisDate1, thisDate2);
+      // console.log((new Date(et.FECHA_LOG)  <= thisDate1));
+      // console.log((new Date(et.FECHA_LOG)  <= thisDate2));
+      // console.log ((new Date(et.FECHA_LOG)  >= thisDate1) && (new Date(et.FECHA_LOG) <= thisDate2), 'date1');
+      if (( new Date(et.FECHA_LOG)  >= thisDate1) && ( new Date (et.FECHA_LOG) <= thisDate2)) {
+        this.isSelected = true;
+        // console.log(this.isSelected);
+        this.selectedEvent.push(et);
+        // console.log('hloa');
+      }
+    });
+    /*
     this.eventList.forEach(event => {
       if (((event.startDate >= thisDate1) && (event.startDate <= thisDate2))
        || ((event.endDate >= thisDate1) && (event.endDate <= thisDate2))) {
         this.isSelected = true;
         this.selectedEvent.push(event);
       }
-    });
+    });*/
   }
 
-   async deleteEvent(evt) {
-    // console.log(new Date(evt.startDate.replace(/\s/, 'T')));
-    // console.log(new Date(evt.endDate.replace(/\s/, 'T')));
-    const alert = this.alertCtrl.create({
-      header: 'Confirm Delete',
-      message: 'Are you sure want to delete this event?',
+  async deleteEvent(index) {
+    console.log('index', index);
+    const alert = await this.alertCtrl.create({
+      header: 'Eliminar Recorrido',
+      message: 'Realmente desea eliminar Recorrido?',
       buttons: [
         {
-          text: 'Cancel',
+          text: 'No',
           role: 'cancel',
           handler: () => {
             console.log('Cancel clicked');
           }
         },
         {
-          text: 'Ok',
+          text: 'Si',
           handler: () => {
-            this.calendar.deleteEvent(evt.title, evt.location, evt.notes,
-              new Date(evt.startDate.replace(/\s/, 'T')), new Date(evt.endDate.replace(/\s/, 'T'))).then(
-              (msg) => {
-                console.log(msg);
-                this.loadEventThisMonth();
-                this.selectDate(new Date(evt.startDate.replace(/\s/, 'T')).getDate());
-              },
-              (err) => {
-                console.log(err);
-              }
-            );
+            if (index > -1) {
+              this.eventList.splice(index, 1 );
+              this.storage.set('listlog', this.eventList);
+            }
           }
         }
       ]
     });
-  }
 
+    await alert.present();
+  }
 }

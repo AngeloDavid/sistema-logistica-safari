@@ -8,6 +8,6 @@ para iniciar debe
 ## Dependencias de cordova
 
 * Storage  debe ejecutar : `ionic cordova plugin add cordova-sqlite-storage`
-* Calendar debe ejecutar : `npm install --save @ionic-native/calendar@beta`
+* Calendar debe ejecutar : `ionic cordova plugin add cordova-plugin-calendar`
 
 

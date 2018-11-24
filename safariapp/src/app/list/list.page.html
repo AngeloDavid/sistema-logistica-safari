@@ -46,30 +46,16 @@
   </div>
 </ion-header>
 
-<ion-content padding>
-  <div class="selected-event" *ngIf="isSelected">
-    <ion-list>
-      <ion-item *ngFor="let se of selectedEvent">
-        <ion-buttons end>
-          <button ion-button clear icon-only (click)="deleteEvent(se)">
-            <ion-icon name="close"></ion-icon>
-          </button>
-        </ion-buttons>
-        <h2>{{se.title}}</h2>
-        <h3>{{se.message}}</h3>
-        <p>Start Date: {{se.startDate}}<br>
-        Start Date: {{se.endDate}}</p>
-      </ion-item>
-    </ion-list>
-  </div>
-    <div>
-        <ion-card >
+<ion-content padding>  
+    <div *ngIf="isSelected">
+        <ion-card  *ngFor="let se of selectedEvent;let i= index  ">
             <ion-card-header>
               <ion-grid>
                 <ion-row no-padding>
-                  <ion-col size="7" no-padding >
-                      <ion-card-subtitle>Ingreso</ion-card-subtitle>
-                      <ion-card-title>06: 50</ion-card-title>
+                  <ion-col size="7" no-padding >                      
+                      <ion-card-subtitle *ngIf="se.TIPO == 'S'" >Salida</ion-card-subtitle>
+                      <ion-card-subtitle *ngIf="se.TIPO == 'I'" >Salida</ion-card-subtitle>
+                      <ion-card-title>{{StringtoDate(se.TURNO_LOG).toLocaleTimeString() }}</ion-card-title>
                   </ion-col>                    
                   <ion-col size="5" no-padding >
                     <ion-row align-items-end no-padding >
@@ -107,6 +93,13 @@
               </ion-list>                
             </ion-card-content>
           </ion-card>   
+    </div>
+    <div *ngIf="!isSelected" >
+      <ion-card color="light">
+        <ion-card-content>
+          <h2> No tiene Recoridos programados para este dia </h2>
+        </ion-card-content>
+      </ion-card>
     </div>
     <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="gotoaddRoute()">        
         <ion-fab-button >

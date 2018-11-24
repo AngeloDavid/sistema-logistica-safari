@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { User } from '../interfaces/index';
+import { User, Logistic } from '../interfaces/index';
 import { Platform, Events } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -52,6 +52,8 @@ export class AppComponent {
     CAMBIAR_PASSWD: 'S',
   };
 
+  listLogt: Logistic [] = [];
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -67,6 +69,7 @@ export class AppComponent {
 
   initializeApp() {
   this.storage.set('userlogin', this.user);
+  // this.storage.set('listlog', this.listLogt);
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
