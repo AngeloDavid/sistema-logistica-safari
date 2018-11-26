@@ -29,16 +29,26 @@ export class ListPage implements OnInit {
     private calendar: Calendar, private storage: Storage ) {
       this.monthNames = ['Ene', 'Feb', 'Mar', 'Apr' , 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct' , 'Nov', 'Dec'];
       this.date = new Date ();
-      this.getDaysOfMonth();
-      this.loadEventThisMonth();
+      this.refresh();
      }
 
   ngOnInit() {
+    console.log('cargando');
   }
 
-  gotoaddRoute() {
-    this.router.navigate(['/addroute']);
-   }
+  gotoaddRoute(action, codelg) {
+    const item = {
+      action: action,
+      CODIGO_LOG: codelg
+    };
+    this.router.navigate(['/addroute', item]);
+  }
+  // refresh
+  refresh() {
+    console.log('Refesh');
+    this.getDaysOfMonth();
+    this.loadEventThisMonth();
+  }
 
   // metodos calendario
   getDaysOfMonth() {
@@ -132,31 +142,15 @@ export class ListPage implements OnInit {
     const thisDate1 = new Date ( this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + ' 00:00:00');
     const thisDate2 = new Date ( this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + ' 23:59:59');
     this.eventList.forEach(et => {
-      // console.log(this.date, 'hoy');
-      // console.log(typeof  et.FECHA_LOG);
-      // console.log( new Date (et.FECHA_LOG), thisDate1, thisDate2);
-      // console.log((new Date(et.FECHA_LOG)  <= thisDate1));
-      // console.log((new Date(et.FECHA_LOG)  <= thisDate2));
-      // console.log ((new Date(et.FECHA_LOG)  >= thisDate1) && (new Date(et.FECHA_LOG) <= thisDate2), 'date1');
       if (( new Date(et.FECHA_LOG)  >= thisDate1) && ( new Date (et.FECHA_LOG) <= thisDate2)) {
         this.isSelected = true;
-        // console.log(this.isSelected);
         this.selectedEvent.push(et);
-        // console.log('hloa');
       }
     });
-    /*
-    this.eventList.forEach(event => {
-      if (((event.startDate >= thisDate1) && (event.startDate <= thisDate2))
-       || ((event.endDate >= thisDate1) && (event.endDate <= thisDate2))) {
-        this.isSelected = true;
-        this.selectedEvent.push(event);
-      }
-    });*/
   }
 
-  async deleteEvent(index) {
-    console.log('index', index);
+  async deleteEvent(ilog, fecha) {
+    console.log('index', ilog, fecha);
     const alert = await this.alertCtrl.create({
       header: 'Eliminar Recorrido',
       message: 'Realmente desea eliminar Recorrido?',
@@ -171,10 +165,17 @@ export class ListPage implements OnInit {
         {
           text: 'Si',
           handler: () => {
-            if (index > -1) {
-              this.eventList.splice(index, 1 );
-              this.storage.set('listlog', this.eventList);
+            let indexj = -1;
+            for (let index = 0; index < this.eventList.length; index++) {
+              const logistic = this.eventList[index];
+              if ( logistic.CODIGO_LOG === ilog) {
+                indexj = index;
+              }
             }
+            this.eventList.splice(indexj, 1 );
+            console.log(this.eventList, 'preuba');
+            this.storage.set('listlog', this.eventList);
+            this.selectDate(new Date(fecha).getDate());
           }
         }
       ]
