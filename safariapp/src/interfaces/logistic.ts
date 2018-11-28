@@ -6,5 +6,5 @@ export class Logistic {
     TURNO_LOG: any;
     TIPO: string;
     OBSERVACION_CLIENTE?: string;
-    ISFROMAPP: Boolean = true;
+    // ISFROMAPP: Boolean = true;
 }
