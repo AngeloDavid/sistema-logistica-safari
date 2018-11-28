@@ -21,7 +21,7 @@ export class ListPage implements OnInit {
   currentMonth: any;
   currentYear: any;
   currentDate: any;
-  eventList: any;
+  eventList: Logistic [];
   selectedEvent: any;
   isSelected: any;
 
@@ -29,11 +29,11 @@ export class ListPage implements OnInit {
     private calendar: Calendar, private storage: Storage ) {
       this.monthNames = ['Ene', 'Feb', 'Mar', 'Apr' , 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct' , 'Nov', 'Dec'];
       this.date = new Date ();
-      this.refresh();
      }
 
   ngOnInit() {
     console.log('cargando');
+    this.refresh();
   }
 
   gotoaddRoute(action, codelg) {
@@ -46,8 +46,8 @@ export class ListPage implements OnInit {
   // refresh
   refresh() {
     console.log('Refesh');
-    this.getDaysOfMonth();
     this.loadEventThisMonth();
+    // this.getDaysOfMonth();
   }
 
   // metodos calendario
@@ -97,22 +97,11 @@ export class ListPage implements OnInit {
     this.storage.get('listlog').then( (val) => {
       this.eventList = val;
       console.log(this.eventList, 'Evento');
+     }).then(() => {
+      this.getDaysOfMonth();
+     }).then( () => {
       this.selectDate(this.date.getDate());
      });
-
-    // llamar los recoridos por mes
-    /*const startDate = new Date(this.date.getFullYear(), this.date.getMonth(), 1);
-    const endDate = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0);
-    this.calendar.listEventsInRange(startDate, endDate).then(
-      (msg) => {
-        msg.forEach(item => {
-          this.eventList.push(item);
-        });
-      },
-      (err) => {
-        console.log(err);
-      }
-    );*/
   }
   StringtoDate(value) {
     return new Date (value);
@@ -121,18 +110,14 @@ export class ListPage implements OnInit {
     let hasEvent = false;
     const thisDate1 = new Date ( this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + ' 00:00:00');
     const thisDate2 = new Date ( this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + ' 23:59:59');
-    this.eventList.forEach(et => {
-      if (( new Date(et.FECHA_LOG)  >= thisDate1) && ( new Date (et.FECHA_LOG) <= thisDate2)) {
-        hasEvent = true;
-      }
-    });
-    // comprobar eventos por dia
-    /*this.eventList.forEach(event => {
-      if (((event.startDate >= thisDate1) && (event.startDate <= thisDate2)) ||
-       ((event.endDate >= thisDate1) && (event.endDate <= thisDate2))) {
-        hasEvent = true;
-      }
-    });*/
+    console.log( this.eventList != null );
+    if ( typeof this.eventList !== 'undefined' || this.eventList != null ) {
+      this.eventList.forEach(et => {
+        if (( new Date(et.FECHA_LOG)  >= thisDate1) && ( new Date (et.FECHA_LOG) <= thisDate2)) {
+          hasEvent = true;
+        }
+      });
+    }
     return hasEvent;
   }
 
@@ -141,12 +126,15 @@ export class ListPage implements OnInit {
     this.selectedEvent = new Array();
     const thisDate1 = new Date ( this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + ' 00:00:00');
     const thisDate2 = new Date ( this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + ' 23:59:59');
-    this.eventList.forEach(et => {
-      if (( new Date(et.FECHA_LOG)  >= thisDate1) && ( new Date (et.FECHA_LOG) <= thisDate2)) {
-        this.isSelected = true;
-        this.selectedEvent.push(et);
-      }
-    });
+    console.log( this.eventList != null );
+    if ( this.eventList != null ) {
+      this.eventList.forEach(et => {
+        if (( new Date(et.FECHA_LOG)  >= thisDate1) && ( new Date (et.FECHA_LOG) <= thisDate2)) {
+          this.isSelected = true;
+          this.selectedEvent.push(et);
+        }
+      });
+    }
   }
 
   async deleteEvent(ilog, fecha) {

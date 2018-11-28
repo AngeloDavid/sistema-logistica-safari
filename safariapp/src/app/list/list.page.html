@@ -36,7 +36,9 @@
                 <ion-col col-1 *ngFor="let day of daysInThisMonth"  (click)="selectDate(day)" >
                   <span class="currentDate" *ngIf="currentDate === day; else otherDate">{{day}}</span>
                   <ng-template #otherDate class="otherDate">{{day}}<br>
-                    <div class="event-bullet" *ngIf="checkEvent(day)"></div>                    
+                    <div *ngIf="eventList != null " >
+                      <div class="event-bullet" *ngIf="checkEvent(day)"></div>
+                    </div>
                   </ng-template>
                 </ion-col>
                 <ion-col col-1 *ngFor="let nextDay of daysInNextMonth" class="next-month">{{nextDay}}</ion-col>
