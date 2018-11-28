@@ -25,7 +25,8 @@ export class AddroutePage implements OnInit {
     TURNO_LOG: this.datenow.toISOString(),
     OBSERVACION_CLIENTE: ''
   };
-  Listlg: Logistic [] = [];
+  Listlg: Logistic [];
+  indexlg: number;
   constructor(private router: Router,
     private routeParms: ActivatedRoute,
     public alertCtrl: AlertController,
@@ -41,8 +42,10 @@ export class AddroutePage implements OnInit {
 
   ngOnInit() {
     this.storage.get('listlog').then( (val) => {
-      this.Listlg = val;
+      this.Listlg = val != null ? val : new Array();
+      console.log (this.Listlg );
       this.routeParms.params.subscribe(data => {
+        console.log(data);
         if (data.action === 'edit') {
           this.isnew = false;
           this.Listlg.forEach(element => {
@@ -54,14 +57,17 @@ export class AddroutePage implements OnInit {
           this.isnew = true;
         }
       });
-   });
+    });
+    this.storage.get('indexlg').then((val) => {
+      this.indexlg = val != null ? val : 0 ;
+    } );
   }
   gotoaddRoute() {
     this.router.navigate(['/list']);
   }
 
   async save() {
-    this.logistica.CODIGO_LOG = '' + (this.Listlg.length + 1);
+    this.logistica.CODIGO_LOG = '000' + (this.indexlg + 1);
     const fecha1 = new Date(this.logistica.TURNO_LOG);
     const fecha2 = new Date(this.logistica.FECHA_LOG);
     fecha2.setHours(fecha1.getHours(), fecha1.getMinutes(), 0 , 0);
@@ -78,6 +84,7 @@ export class AddroutePage implements OnInit {
       });
     }
     this.storage.set('listlog', this.Listlg);
+    this.storage.set('indexlg', this.indexlg);
     this.router.navigate(['/list']);
   /*  this.event.title = this.logistica.TIPO === 'I' ? 'Ingreso' : 'Salida' ;
     this.event.location = this.logistica.OBSERVACION_CLIENTE;

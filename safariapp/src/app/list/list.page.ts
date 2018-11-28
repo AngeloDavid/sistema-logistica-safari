@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Calendar } from '@ionic-native/calendar/ngx';
-import {AlertController} from '@ionic/angular';
+import {AlertController, LoadingController} from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { Logistic } from '../../interfaces/index';
 
@@ -26,6 +26,7 @@ export class ListPage implements OnInit {
   isSelected: any;
 
   constructor(private router: Router, private alertCtrl: AlertController,
+    public loadCtrl: LoadingController,
     private calendar: Calendar, private storage: Storage ) {
       this.monthNames = ['Ene', 'Feb', 'Mar', 'Apr' , 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct' , 'Nov', 'Dec'];
       this.date = new Date ();
@@ -44,10 +45,16 @@ export class ListPage implements OnInit {
     this.router.navigate(['/addroute', item]);
   }
   // refresh
-  refresh() {
-    console.log('Refesh');
-    this.loadEventThisMonth();
-    // this.getDaysOfMonth();
+  async  refresh() {
+    const alert = await this.loadCtrl.create({
+      message: `Cargando ...`,
+      spinner: 'bubbles'
+    });
+
+    await alert.present()
+      .then(() => { this.loadEventThisMonth(); } )
+      .then(() => { alert.dismiss(); } )
+      .then(() => { console.log('Refesh'); });
   }
 
   // metodos calendario
@@ -96,7 +103,6 @@ export class ListPage implements OnInit {
     this.eventList = new Array();
     this.storage.get('listlog').then( (val) => {
       this.eventList = val;
-      console.log(this.eventList, 'Evento');
      }).then(() => {
       this.getDaysOfMonth();
      }).then( () => {
@@ -110,8 +116,8 @@ export class ListPage implements OnInit {
     let hasEvent = false;
     const thisDate1 = new Date ( this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + ' 00:00:00');
     const thisDate2 = new Date ( this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + ' 23:59:59');
-    console.log( this.eventList != null );
-    if ( typeof this.eventList !== 'undefined' || this.eventList != null ) {
+    // console.log( this.eventList != null );
+    if ( this.eventList != null ) {
       this.eventList.forEach(et => {
         if (( new Date(et.FECHA_LOG)  >= thisDate1) && ( new Date (et.FECHA_LOG) <= thisDate2)) {
           hasEvent = true;
@@ -126,7 +132,7 @@ export class ListPage implements OnInit {
     this.selectedEvent = new Array();
     const thisDate1 = new Date ( this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + ' 00:00:00');
     const thisDate2 = new Date ( this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + ' 23:59:59');
-    console.log( this.eventList != null );
+  //  console.log( this.eventList != null );
     if ( this.eventList != null ) {
       this.eventList.forEach(et => {
         if (( new Date(et.FECHA_LOG)  >= thisDate1) && ( new Date (et.FECHA_LOG) <= thisDate2)) {
