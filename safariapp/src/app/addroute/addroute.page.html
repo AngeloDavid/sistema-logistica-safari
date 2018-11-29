@@ -42,7 +42,22 @@
               <ion-textarea rows="4" cols="20" placeholder="Rerefencias del lugar" 
               clearOnEdit="true" [(ngModel)]="logistica.OBSERVACION_CLIENTE" name="logistica.OBSERVACION_CLIENTE"
               ></ion-textarea>
-          </ion-item>
+          </ion-item>          
+        </ion-list>
+        <ion-list *ngIf="isnew">
+            <ion-item>
+                <ion-icon name="copy" slot="start"></ion-icon>
+                <ion-label >Repetir la programación</ion-label>
+                <ion-toggle color="primary" [(ngModel)]="isrepeat" name="isrepeat" ></ion-toggle>
+              </ion-item>
+              <ion-item *ngIf="isrepeat">
+                <ion-icon name="calendar" slot="start"></ion-icon>
+                <ion-label position="stacked" >Fecha Final</ion-label>
+                <ion-datetime display-format="DD/MMM/YYYY" cancelText="Cancelar" doneText="Guardar"
+                monthShortNames="Ene, Feb, Mar, Apr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic"
+                mode="ios" [(ngModel)]="dateendst" name="dateendst"
+                ></ion-datetime>
+            </ion-item> 
         </ion-list>
         <ion-button icon-start  color="primary" expand="full" size="large"  type="submit">                  
             <ion-icon name="send"></ion-icon>

@@ -14,6 +14,8 @@ export class AddroutePage implements OnInit {
 
   event = { title: '', location: '', message: '', startDate: '', endDate: '' };
   datenow = new Date();
+  dateend = new Date();
+  dateendst: any;
   now = moment();
   isnew = true;
   logistica: Logistic = {
@@ -27,6 +29,7 @@ export class AddroutePage implements OnInit {
   };
   Listlg: Logistic [];
   indexlg: number;
+  isrepeat: boolean;
   constructor(private router: Router,
     private routeParms: ActivatedRoute,
     public alertCtrl: AlertController,
@@ -38,6 +41,9 @@ export class AddroutePage implements OnInit {
         this.logistica.FECHA_LOG  = moment(this.now.format(), moment.ISO_8601).format();
         this.logistica.TURNO_LOG  = moment(this.now.format(), moment.ISO_8601).format();
       });
+      this.isrepeat = false;
+      this.dateend.setDate(this.datenow.getDate() + 1 );
+      this.dateendst = this.dateend.toISOString ();
    }
 
   ngOnInit() {
