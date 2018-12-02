@@ -68,9 +68,12 @@
             </ion-col>
     </ion-row> 
 </ion-grid>
-<ion-fab vertical="bottom" horizontal="start" slot="fixed" *ngIf="more">
+<ion-fab vertical="bottom" horizontal="start" slot="fixed"  (click)="loadMap()" >
     <ion-fab-button>
       <ion-icon name="locate"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+  <div id="map">
+
+  </div>
 </ion-content>

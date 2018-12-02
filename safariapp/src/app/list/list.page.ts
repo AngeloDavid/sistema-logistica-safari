@@ -146,8 +146,7 @@ export class ListPage implements OnInit {
   async deleteEvent(ilog, fecha) {
     console.log('index', ilog, fecha);
     const alert = await this.alertCtrl.create({
-      header: 'Eliminar Recorrido',
-      message: 'Realmente desea eliminar Recorrido?',
+      message: '¿Desea cancelar este recorrido?',
       buttons: [
         {
           text: 'No',
