@@ -55,7 +55,7 @@
                 <ion-label position="stacked" >Fecha Final</ion-label>
                 <ion-datetime display-format="DD/MMM/YYYY" cancelText="Cancelar" doneText="Guardar"
                 monthShortNames="Ene, Feb, Mar, Apr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic"
-                mode="ios" [(ngModel)]="dateendst" name="dateendst"
+                mode="ios" [(ngModel)]="dateendst" name="dateendst" [min]="logistica.FECHA_LOG"
                 ></ion-datetime>
             </ion-item> 
         </ion-list>

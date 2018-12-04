@@ -45,7 +45,7 @@ export class ProfilePage implements OnInit {
                       value: this.user.NOMBRES,
                       icon: 'person',
                       model: 'NOMBRES',
-                      isdisabled: false,
+                      isdisabled: true,
                       optional: false
                     },
                     {
@@ -56,7 +56,7 @@ export class ProfilePage implements OnInit {
                       value: this.user.APELLIDOS,
                       icon: '',
                       model: 'APELLIDOS',
-                      isdisabled: false,
+                      isdisabled: true,
                       optional: false
                     },
                     {
@@ -100,7 +100,7 @@ export class ProfilePage implements OnInit {
                       value: this.user.BARRIO,
                       icon: 'business',
                       model: 'BARRIO',
-                      isdisabled: false,
+                      isdisabled: true,
                       optional: false
                     },
                     {
@@ -111,7 +111,7 @@ export class ProfilePage implements OnInit {
                       value: this.user.CALLE_PRINCIPAL,
                       icon: 'home',
                       model: 'CALLE_PRINCIPAL',
-                      isdisabled: false,
+                      isdisabled: true,
                       optional: false
                     },
                     {
@@ -122,7 +122,7 @@ export class ProfilePage implements OnInit {
                       value: this.user.NUM_CASA,
                       icon: '',
                       model: 'NUM_CASA',
-                      isdisabled: false,
+                      isdisabled: true,
                       optional: true
                     },
                     {
@@ -133,7 +133,7 @@ export class ProfilePage implements OnInit {
                       value: this.user.CALLE_SECUNDARIA,
                       icon: '',
                       model: 'CALLE_SECUNDARIA',
-                      isdisabled: false,
+                      isdisabled: true,
                       optional: true
                     },
                     {
@@ -144,7 +144,7 @@ export class ProfilePage implements OnInit {
                       value: this.user.REFERENCIA,
                       icon: '',
                       model: 'REFERENCIA',
-                      isdisabled: false,
+                      isdisabled: true,
                       optional: true
                     }
                   ];

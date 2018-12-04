@@ -1,4 +1,4 @@
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, AlertController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 declare var google;
@@ -20,6 +20,7 @@ export class HomePage implements OnInit {
 
   constructor( private geolocation: Geolocation,
     private loadinCtrl: LoadingController,
+    private alertCtrl: AlertController
      ) {
   }
 
@@ -31,12 +32,15 @@ export class HomePage implements OnInit {
     this.loadMap();
   }
   async loadMap () {
-    const loading = await this.loadinCtrl.create({
-      message: `Cargando ...`,
-      spinner: 'bubbles'
-    });
-    loading.present();
-    await this.getposition();
+    // const loading = await this.loadinCtrl.create({
+    //   message: `Cargando ...`,
+    //   spinner: 'bubbles'
+    // });
+    // loading.present();
+    await this.getposition().catch(() => {
+      // loading.dismiss();
+      this.alerta();
+    } );
 
     const mapEle: HTMLElement = document.getElementById('map');
 
@@ -47,7 +51,7 @@ export class HomePage implements OnInit {
     });
     google.maps.event
     .addListenerOnce(this.map, 'idle', () => {
-      loading.dismiss();
+      // loading.dismiss();
       this.addMark(this.myLatLng.lat, this.myLatLng.lng);
     });
   }
@@ -68,5 +72,15 @@ export class HomePage implements OnInit {
       map: this.map,
       title: 'Hello World!'
     });
+  }
+  private async alerta () {
+    const alert = await this.alertCtrl.create({
+      header: 'Error ',
+      subHeader: 'No se puede localizar su ubicacion',
+      message: 'Habilite su GPS',
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 }

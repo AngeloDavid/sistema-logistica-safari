@@ -27,11 +27,10 @@
     "@ionic-native/status-bar": "5.0.0-beta.21",
     "@ionic/angular": "4.0.0-beta.13",
     "@ionic/storage": "^2.2.0",
-    "cordova-android": "7.1.3",
+    "cordova-android": "7.1.4",
     "cordova-plugin-calendar": "5.1.3",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-geolocation": "4.0.1",
-    "cordova-plugin-googlemaps": "2.4.6",
     "cordova-plugin-ionic-keyboard": "^2.1.3",
     "cordova-plugin-ionic-webview": "^2.2.5",
     "cordova-plugin-splashscreen": "^5.0.2",
@@ -83,12 +82,6 @@
         "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
       },
       "cordova-plugin-ionic-keyboard": {},
-      "cordova-plugin-googlemaps": {
-        "API_KEY_FOR_ANDROID": "AIzaSyCuhGZz0bT4rkQDE_446Whh17J592Xh3Tk",
-        "API_KEY_FOR_IOS": "",
-        "PLAY_SERVICES_VERSION": "15.0.1",
-        "ANDROID_SUPPORT_V4_VERSION": "27.+"
-      },
       "cordova-plugin-geolocation": {
         "GEOLOCATION_USAGE_DESCRIPTION": "To locate you"
       }
