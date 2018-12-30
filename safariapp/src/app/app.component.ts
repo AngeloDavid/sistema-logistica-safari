@@ -28,7 +28,7 @@ export class AppComponent {
     },
     {
       title: 'Cerrar Sesión',
-      url: '/mpChangePwd',
+      url: '/login',
       icon: 'log-out'
     }
   ];
