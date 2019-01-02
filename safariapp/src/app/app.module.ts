@@ -12,12 +12,17 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { Calendar } from '@ionic-native/calendar/ngx';
+
+// service http de angular
+import { HttpClientModule } from '@angular/common/http';
+import { Global } from './api/params';
+import { UserService } from './api/user.service';
 
 @NgModule({
   declarations: [AppComponent, MpChangePwdPage],
   entryComponents: [ MpChangePwdPage],
   imports: [
+    HttpClientModule,
     BrowserModule,
     IonicModule.forRoot(  {
       scrollPadding: 'false',
@@ -27,11 +32,12 @@ import { Calendar } from '@ionic-native/calendar/ngx';
     AppRoutingModule,
   ],
   providers: [
+    Global,
     StatusBar,
     SplashScreen,
     Geolocation,
+    UserService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    Calendar
   ],
   bootstrap: [AppComponent]
 })

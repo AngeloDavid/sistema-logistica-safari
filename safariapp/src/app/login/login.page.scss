@@ -1,3 +1,9 @@
 ion-row{
     vertical-align: center;
     padding-top: 1.8em;    }    
+    ion-content{
+    //background-image: url(https://doblevia.org/wp-content/uploads/2014/12/fondo-de-textura-de-lino-gris_1053-253.jpg);
+    background-image: url("../../assets/img/fondo.jpg") !important;
+    background-repeat: repeat;
+    background-position: left top;
+}

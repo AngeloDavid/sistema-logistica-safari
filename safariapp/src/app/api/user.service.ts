@@ -1,0 +1,44 @@
+import { Global } from './params';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { User} from '../../interfaces/user';
+
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UserService {
+
+  // url de api rest
+  url: String = this.global.urlApi + 'Usuariosdv/';
+  cabecera;
+  constructor(public http: HttpClient, private global: Global ) {
+  }
+
+  // Metodo que se conecta con el servidor para ver si existe el usuario
+  loginUser(user: string, password: string) {
+
+    console.log('Service');
+
+    return this.http.get(this.url + 'get?id=' + user + '&id1=' + password).subscribe(
+      res => {
+        console.log('¡ Solicitud recibida !', res);
+        return res;
+      },
+      err => {
+        console.log('¡ Solicitud recibida !');
+        return err;
+      });
+  }
+
+  // cambiar datos
+  updateUser(user: User, id: any) {
+    this.cabecera = new HttpHeaders().set('content-type', 'application/json');
+    this.cabecera.set('Access-Control-Allow-Origin', '*');
+    this.cabecera.set('Access-Control-Allow-Credentials', 'true');
+    this.cabecera.set('Access-Control-Allow-Headers', 'Content-Type');
+    this.cabecera.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+
+  }
+}
