@@ -3,6 +3,7 @@ import { User, Optioninput } from '../../interfaces/index';
 import { ModalController, AlertController, Events } from '@ionic/angular';
 import {MpChangePwdPage} from '../mp-change-pwd/mp-change-pwd.page';
 import { Storage } from '@ionic/storage';
+import {UserService} from '../api/user.service';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -32,6 +33,7 @@ export class ProfilePage implements OnInit {
   listop: Optioninput [] = [ ];
   constructor( public modalController: ModalController,
                public alertCtrl: AlertController,
+               private userSer: UserService,
               public events: Events, private storage: Storage) {
                 this.storage.get('userlogin').then( (val) => {
                   console.log(val);
@@ -171,8 +173,13 @@ export class ProfilePage implements OnInit {
         this.user[opt.model] = opt.value;
       });
       // CAMBIAR DATOS VARIABLES GLOBAL
-      this.storage.set('userlogin', this.user);
-      this.events.publish('userlogin', this.user);
+      this.userSer.updateUser(this.user).subscribe((data) => {
+        this.storage.set('userlogin', this.user);
+        this.events.publish('userlogin', this.user);
+      },
+      (err) => {
+        console.log(err);
+      });
     } else {
       this.listop.forEach(opt => {
         opt.value = this.user[opt.model];
@@ -183,7 +190,7 @@ export class ProfilePage implements OnInit {
   async CambiarPwd() {
     const modal = await this.modalController.create({
       component: MpChangePwdPage,
-      componentProps: { value: 123 }
+      componentProps: { value: this.user.CODIGO_NOMINA }
     });
     return await modal.present();
   }

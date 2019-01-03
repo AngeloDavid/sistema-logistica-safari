@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from '../api/user.service';
 import {User} from '../../interfaces/user';
+import { Storage } from '@ionic/storage';
+import { Router } from '@angular/router';
+import {AlertController, LoadingController, Events} from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -9,36 +12,46 @@ import {User} from '../../interfaces/user';
 })
 export class LoginPage implements OnInit {
 
-  user: User = {
-    CODIGO_CLIE: '0010001',
-    CODIGO_NOMINA: '0010001',
-    APELLIDOS: 'LOPEZ VALLE',
-    NOMBRES: 'KATHERINE ALEXANDRA',
-    AREA_TRABAJO: 'SAC',
-    BARRIO: 'KENEDY',
-    CALLE_PRINCIPAL: 'DE  LOS JAZMINES',
-    NUM_CASA: 'N52-418',
-    CALLE_SECUNDARIA: 'CAPITAN RAMON BORJA Y LOS PINOS ',
-    REFERENCIA: 'ESQUINERO  SOBRE  LOS  JAZMINES  ANTES DE  LLEGAR AL CONJUNTO BRASILIA 1',
-    FONO_CELULAR: '0983346578',
-    RUTA: '0010003',
-    USUARIO_APP: '0502336548',
-    PASSWD_APP: '0502336548',
-    EMAIL: 'fabianjacho@gmail.com',
-    CAMBIAR_PASSWD: 'S',
-  };
+  user: User;
 
   idUser: any;
   pwdUser: any;
-  constructor( private userSer: UserService) { }
+  constructor( private userSer: UserService, public events: Events,
+    private storage: Storage, private router: Router, private alertCtrl: AlertController,
+    public loadCtrl: LoadingController) { }
 
   ngOnInit() {
   }
 
-  login() {
+  async login() {
+    const cargando = await this.loadCtrl.create({
+      message: `Ingresando ...`,
+      spinner: 'bubbles'
+    });
+    await cargando.present();
     console.log('loginuser');
-    this.userSer.loginUser(this.idUser, this.pwdUser);
-
+    this.userSer.loginUser(this.idUser, this.pwdUser).subscribe(
+      res => {
+        this.user = res[0];
+        this.user.USUARIO_APP = this.idUser;
+        this.storage.set('userlogin', this.user);
+        this.events.publish('userlogin', this.user);
+        this.router.navigateByUrl('/');
+        console.log('¡ Solicitud recibida !');
+      },
+      err => {
+        console.log('¡ Solicitud NO RECIBIDA !', err);
+        this.msgmostrar('Intente de nuevo por favor', 'Error de ingreso');
+      });
+      cargando.dismiss();
+  }
+  async  msgmostrar(msg, title) {
+    const alert = await this.alertCtrl.create({
+        header: title,
+        message: msg,
+        buttons: ['OK']
+    });
+    await alert.present();
   }
 
 }

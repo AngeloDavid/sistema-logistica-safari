@@ -33,24 +33,24 @@ export class AppComponent {
       icon: 'log-out'
     }
   ];
-
+  // user: User;
   user: User = {
-    CODIGO_CLIE: '0010001',
-    CODIGO_NOMINA: '0010001',
-    APELLIDOS: 'LOPEZ VALLE',
-    NOMBRES: 'KATHERINE ALEXANDRA',
-    AREA_TRABAJO: 'SAC',
-    BARRIO: 'KENEDY',
-    CALLE_PRINCIPAL: 'DE  LOS JAZMINES',
-    NUM_CASA: 'N52-418',
-    CALLE_SECUNDARIA: 'CAPITAN RAMON BORJA Y LOS PINOS ',
-    REFERENCIA: 'ESQUINERO  SOBRE  LOS  JAZMINES  ANTES DE  LLEGAR AL CONJUNTO BRASILIA 1',
-    FONO_CELULAR: '0983346578',
-    RUTA: '0010003',
-    USUARIO_APP: '0502336548',
-    PASSWD_APP: '0502336548',
-    EMAIL: 'fabianjacho@gmail.com',
-    CAMBIAR_PASSWD: 'S',
+    CODIGO_CLIE: '',
+    CODIGO_NOMINA: '',
+    APELLIDOS: '',
+    NOMBRES: '',
+    AREA_TRABAJO: '',
+    BARRIO: '',
+    CALLE_PRINCIPAL: '',
+    NUM_CASA: '',
+    CALLE_SECUNDARIA: '',
+    REFERENCIA: '',
+    FONO_CELULAR: '',
+    RUTA: '',
+    USUARIO_APP: '',
+    PASSWD_APP: '',
+    EMAIL: '',
+    CAMBIAR_PASSWD: '',
   };
 
   listLogt: Logistic [] = [];
@@ -70,13 +70,21 @@ export class AppComponent {
   }
 
   initializeApp() {
-  this.storage.set('userlogin', this.user);
-  // this.storage.set('listlog', this.listLogt);
-    this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
+    this.router.navigateByUrl('/login');
+    this.storage.get('userlogin').then((val) => {
+      console.log(val, 'valor' );
+      if (val) {
+        this.user = val;
+        this.router.navigateByUrl('/home');
+        console.log(val);
+      } else {
+        this.router.navigateByUrl('/login');
+      }
+      this.platform.ready().then(() => {
+        this.statusBar.styleDefault();
+        this.splashScreen.hide();
+      });
     });
-     this.router.navigateByUrl('/login');
   }
   MaysPrimera(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
