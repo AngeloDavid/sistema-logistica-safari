@@ -1,7 +1,0 @@
-{
-  "name": "safaridemo",
-  "integrations": {
-    "cordova": {}
-  },
-  "type": "ionic-angular"
-}
