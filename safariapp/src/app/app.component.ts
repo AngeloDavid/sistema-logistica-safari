@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { User, Logistic } from '../interfaces/index';
-import { Platform, Events } from '@ionic/angular';
+import { Platform, Events, AlertController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Storage } from '@ionic/storage';
@@ -27,11 +27,12 @@ export class AppComponent {
       url: '/profile',
       icon: 'contact'
     },
-    {
-      title: 'Cerrar Sesión',
-      url: '/login',
-      icon: 'log-out'
-    }
+    // {
+    //   title: 'Cerrar Sesión',
+    //   url: 'cerrar()',
+    //   action: 'cerrar()',
+    //   icon: 'log-out'
+    // }
   ];
   // user: User;
   user: User = {
@@ -61,7 +62,8 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     public events: Events,
-    private storage: Storage
+    private storage: Storage,
+    public alertCtrl: AlertController
   ) {
     this.initializeApp();
     this.events.subscribe('userlogin', (user) => {
@@ -91,5 +93,31 @@ export class AppComponent {
   }
   NombreUnido(apellido: string, nombre: string) {
     return this.MaysPrimera(nombre.split(' ' , 1 )[0].toLowerCase()) + ' ' + this.MaysPrimera(apellido.split( ' ', 1)[0].toLowerCase());
+  }
+
+  async cerrar() {
+      const alert = await this.alertCtrl.create({
+        subHeader: 'Cerrar Sesión',
+        message: '¿Esta Seguro de Cerrar sesión?',
+        mode: 'ios',
+        buttons: [
+          {
+            text: 'No',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: (blah) => {
+              console.log('CS/ Confirm Cancel: blah');
+            }
+          }, {
+            text: 'Si',
+            handler: () => {
+              console.log('CS/ Confirm Okay');
+              this.storage.remove('userlogin');
+              this.router.navigateByUrl('/login');
+            }
+          }
+        ]
+      });
+      await alert.present();
   }
 }

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Calendar } from '@ionic-native/calendar/ngx';
 import {AlertController, LoadingController} from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { Logistic } from '../../interfaces/index';
@@ -26,8 +25,7 @@ export class ListPage implements OnInit {
   isSelected: any;
 
   constructor(private router: Router, private alertCtrl: AlertController,
-    public loadCtrl: LoadingController,
-    private calendar: Calendar, private storage: Storage ) {
+    public loadCtrl: LoadingController, private storage: Storage ) {
       this.monthNames = ['Ene', 'Feb', 'Mar', 'Apr' , 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct' , 'Nov', 'Dec'];
       this.date = new Date ();
      }
