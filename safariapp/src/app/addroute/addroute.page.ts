@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Calendar } from '@ionic-native/calendar/ngx';
+// import { Calendar } from '@ionic-native/calendar/ngx';
 import {AlertController, Events, LoadingController} from '@ionic/angular';
 import {Logistic} from '../../interfaces/index';
 import { Storage } from '@ionic/storage';
@@ -34,7 +34,7 @@ export class AddroutePage implements OnInit {
     private routeParms: ActivatedRoute,
     public loadCtrl: LoadingController,
     public alertCtrl: AlertController,
-    private calendar: Calendar,
+    // private calendar: Calendar,
     private storage: Storage) {
       this.storage.get('userlogin').then((val) => {
         this.logistica.CODIGO_CLIE = val.CODIGO_CLIE;

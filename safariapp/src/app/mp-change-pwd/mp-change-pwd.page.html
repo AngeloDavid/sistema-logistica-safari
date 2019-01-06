@@ -10,22 +10,39 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list lines="full">
-    <ion-item align-self-center>
-        <ion-icon name="key" size="large" slot="start"></ion-icon>
-        <ion-label position="floating">Contraseña</ion-label>
-        <ion-input type="password"  clearInput required [(ngModel)]="datos.pwdBefore" ></ion-input>
-    </ion-item>
-    <ion-item>
-        <ion-icon name="lock" slot="start"></ion-icon>
-        <ion-label  position="floating">Nueva Contraseña</ion-label>
-        <ion-input type="password"  clearInput required  [(ngModel)]="datos.pwdNow" ></ion-input>
-    </ion-item>
-    <ion-item>
-        <ion-icon name="unlock" slot="start"></ion-icon>
-        <ion-label position="floating">Confirmación de Contraseña</ion-label>
-        <ion-input type="password"  clearInput required  [(ngModel)]="datos.pwdconf"></ion-input>
-    </ion-item>
-  </ion-list>
-  <ion-button color="primary" size="large" expand="full" (click)="changepwd()" >Guardar</ion-button>
+  <form [formGroup]="changePwdForm" (ngSubmit)="changepwd()">
+    <ion-list lines="full">
+      <ion-item align-self-center>
+          <ion-icon name="key" size="large" slot="start"></ion-icon>
+          <ion-label position="floating">Contraseña</ion-label>
+          <ion-input type="password"  clearInput required [formControl]="pwdBefore" ></ion-input>
+      </ion-item>
+      <div *ngIf="changePwdForm.get('pwdBefore').errors && changePwdForm.get('pwdBefore').dirty" >
+          <p id="form-text-err" *ngIf="changePwdForm.get('pwdBefore').hasError('required')">* campo es requerido</p>
+      </div>
+      <ion-item>
+          <ion-icon name="lock" slot="start"></ion-icon>
+          <ion-label  position="floating">Nueva Contraseña</ion-label>
+          <ion-input type="password"  clearInput required  [formControl]="pwdNow" name="pwdNow" ></ion-input>
+      </ion-item>
+      <div *ngIf="changePwdForm.get('pwdNow').errors && changePwdForm.get('pwdNow').dirty" >
+          <p id="form-text-err" *ngIf="changePwdForm.get('pwdNow').hasError('required')">* campo es requerido</p>
+          <p id="form-text-err" *ngIf="changePwdForm.get('pwdNow').hasError('minlength')">* La contraseña debe tener minimo 8 digitos</p>
+          <p id="form-text-err" *ngIf="changePwdForm.get('pwdNow').hasError('hasNumber')">* La contraseña debe tener al menos un numero</p>
+          <p id="form-text-err" *ngIf="changePwdForm.get('pwdNow').hasError('hasCapitalCase')">* La contraseña debe tener al menos una letra Mayuscula</p>
+          <p id="form-text-err" *ngIf="changePwdForm.get('pwdNow').hasError('hasSmallCase')">* La contraseña debe tener al menos una letra Minuscula</p>
+          <p id="form-text-err" *ngIf="changePwdForm.get('pwdNow').hasError('hasSpecialCharacters')">* La contraseña debe tener al menos un Caracter Especial</p>
+      </div>
+      <ion-item>
+          <ion-icon name="unlock" slot="start"></ion-icon>
+          <ion-label position="floating">Confirmación de Contraseña</ion-label>
+          <ion-input type="password"  clearInput required  [formControl]="pwdconf" name="pwdconf"></ion-input>
+      </ion-item>
+      <div *ngIf="changePwdForm.get('pwdconf').errors && changePwdForm.get('pwdconf').dirty" >
+          <p id="form-text-err" *ngIf="changePwdForm.get('pwdconf').hasError('required')">* campo es requerido</p>
+          <p id="form-text-err" *ngIf="changePwdForm.get('pwdconf').hasError('NoPassswordMatch')">* Las contraseñas no coinciden </p>
+      </div>
+    </ion-list>
+    <ion-button color="primary" size="large" expand="full" (click)="changepwd()" [disabled]="!changePwdForm.valid" >Guardar</ion-button>
+  </form>
 </ion-content>

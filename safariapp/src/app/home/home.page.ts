@@ -1,6 +1,6 @@
 import { LoadingController, AlertController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+// import { Geolocation } from '@ionic-native/geolocation/ngx';
 declare var google;
 
 @Component({
@@ -18,7 +18,8 @@ export class HomePage implements OnInit {
   };
   map: any;
 
-  constructor( private geolocation: Geolocation,
+  constructor(
+    //  private geolocation: Geolocation,
     private loadinCtrl: LoadingController,
     private alertCtrl: AlertController
      ) {
@@ -29,9 +30,9 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    this.loadMap();
+    // this.loadMap();
   }
-  async loadMap () {
+  /*async loadMap () {
     // const loading = await this.loadinCtrl.create({
     //   message: `Cargando ...`,
     //   spinner: 'bubbles'
@@ -55,15 +56,15 @@ export class HomePage implements OnInit {
       this.addMark(this.myLatLng.lat, this.myLatLng.lng);
     });
   }
-
-  private async getposition() {
+*/
+  /*private async getposition() {
     const rta = await this.geolocation.getCurrentPosition();
     this.myLatLng = {
       lat: rta.coords.latitude,
       lng: rta.coords.longitude
     };
     console.log(this.myLatLng);
-  }
+  } */
 
   private addMark(lat: number, lng: number) {
     const marker = new google.maps.Marker({

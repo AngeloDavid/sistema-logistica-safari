@@ -3,7 +3,7 @@ import {MpChangePwdPage } from './mp-change-pwd/mp-change-pwd.page';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -24,6 +24,7 @@ import { UserService } from './api/user.service';
   imports: [
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserModule,
     IonicModule.forRoot(  {
       scrollPadding: 'false',

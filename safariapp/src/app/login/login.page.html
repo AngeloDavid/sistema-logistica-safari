@@ -1,28 +1,36 @@
 
-<ion-content padding >
+<ion-content padding class="homeback">
   <ion-grid>
       <ion-row justify-content-center align-items-center >
           <ion-col>
             <div text-center>
-              <img src="assets/img/logo.png" style="width: 220px;padding-top: 6%">
+              <img src="assets/img/logo.png" style="width: 245px; padding-top: 14%">
             </div>
           </ion-col>                 
       </ion-row>
       <ion-row justify-content-center align-items-center>
         <ion-col >
-            <ion-list lines="full">        
+            <form padding [formGroup]="loginForm" (ngSubmit)="login()" >
+            <ion-list lines="full" >        
                 <ion-item align-self-center >
                     <ion-icon color="primary" name="person" size="large" slot="start"></ion-icon>
-                    <ion-label color="primary" position="floating">Usuario</ion-label>
-                    <ion-input color="primary" type="text"   required [(ngModel)]="idUser"  ></ion-input>
+                    <!-- <ion-label color="primary" position="floating">Usuario</ion-label> -->
+                    <ion-input color="primary" type="text" name="idUser" placeholder="Usuario"  required [formControl]="idUser" ></ion-input>
                 </ion-item>
+                <div *ngIf="loginForm.get('idUser').errors && loginForm.get('idUser').dirty" >
+                    <p id="form-text-err" *ngIf="loginForm.get('idUser').hasError('required')">* campo es requerido</p>                        
+                </div>
                 <ion-item >
-                    <ion-icon color="primary" name="key" slot="start"></ion-icon>
-                    <ion-label color="primary" position="floating">Contraseña</ion-label>
-                    <ion-input color="primary" type="password"   required [(ngModel)]="pwdUser"></ion-input>
+                    <ion-icon color="primary" name="lock" slot="start"></ion-icon>
+                    <!-- <ion-label color="primary" position="floating">Contraseña</ion-label> -->
+                    <ion-input color="primary" type="password"   required name="pwdUser" placeholder="Contraseña" [formControl]="pwdUser"></ion-input>
                 </ion-item>
+                <div *ngIf="loginForm.get('pwdUser').errors && loginForm.get('pwdUser').dirty" >
+                        <p id="form-text-err" *ngIf="loginForm.get('pwdUser').hasError('required')">* campo es requerido</p>                        
+                    </div>
               </ion-list>
-              <ion-button color="danger" size="large" expand="full" (click)="login()">Ingresar</ion-button>
+              <ion-button color="danger" size="large" expand="full" (click)="login()" [disabled]="!loginForm.valid">Ingresar</ion-button>
+              </form>
         </ion-col>
       </ion-row>
   </ion-grid>

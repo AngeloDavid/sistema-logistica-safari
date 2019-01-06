@@ -1,9 +1,21 @@
 ion-row{
     vertical-align: center;
-    padding-top: 1.8em;    }    
-    ion-content{
+    padding-top: 1.6em;    }    
+.homeback{
     //background-image: url(https://doblevia.org/wp-content/uploads/2014/12/fondo-de-textura-de-lino-gris_1053-253.jpg);
-    background-image: url("../../assets/img/fondo.jpg") !important;
+    --background: url("../../assets/img/fondo.jpg") !important;
     background-repeat: repeat;
     background-position: left top;
+}
+form {
+    background: #fff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    // margin-top: 25%;
+}
+#form-text-err{
+    color: #ff0000;
+    padding-left: 42px;
+    font-size: 0.9em;
+    margin-top: 4%;
+    margin-bottom: 3%;
 }
