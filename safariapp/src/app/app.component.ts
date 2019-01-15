@@ -52,6 +52,7 @@ export class AppComponent {
     PASSWD_APP: '',
     EMAIL: '',
     CAMBIAR_PASSWD: '',
+    EMPRESA: ''
   };
 
   listLogt: Logistic [] = [];
@@ -74,7 +75,7 @@ export class AppComponent {
   initializeApp() {
     this.router.navigateByUrl('/login');
     this.storage.get('userlogin').then((val) => {
-      console.log(val, 'valor' );
+      // console.log(val, 'valor' );
       if (val) {
         this.user = val;
         this.router.navigateByUrl('/home');
@@ -113,6 +114,7 @@ export class AppComponent {
             handler: () => {
               console.log('CS/ Confirm Okay');
               this.storage.remove('userlogin');
+              this.storage.remove('listlog');
               this.router.navigateByUrl('/login');
             }
           }

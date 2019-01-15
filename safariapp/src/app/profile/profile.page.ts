@@ -28,6 +28,7 @@ export class ProfilePage implements OnInit {
     PASSWD_APP: '',
     EMAIL: '',
     CAMBIAR_PASSWD: '',
+    EMPRESA: ''
   };
 
   listop: Optioninput [] = [ ];
@@ -35,7 +36,8 @@ export class ProfilePage implements OnInit {
                public alertCtrl: AlertController,
                private userSer: UserService,
               public events: Events, private storage: Storage) {
-                this.storage.get('userlogin').then( (val) => {
+                this.storage.get('userlogin').then( (val: any) => {
+                  // this.userSer.loginUser(val.USUARIO_APP )
                   console.log(val);
                   this.user = val;
                   this.listop = [

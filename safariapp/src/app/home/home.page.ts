@@ -1,5 +1,7 @@
 import { LoadingController, AlertController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
+import { Storage } from '@ionic/storage';
+import { Router } from '@angular/router';
 // import { Geolocation } from '@ionic-native/geolocation/ngx';
 declare var google;
 
@@ -21,7 +23,9 @@ export class HomePage implements OnInit {
   constructor(
     //  private geolocation: Geolocation,
     private loadinCtrl: LoadingController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private storage: Storage,
+    private router: Router,
      ) {
   }
 
@@ -30,6 +34,13 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    this.storage.get('userlogin').then((val) => {
+      console.log(val, 'valor' );
+      if (val) {
+      } else {
+        this.router.navigateByUrl('/login');
+      }
+    });
     // this.loadMap();
   }
   /*async loadMap () {

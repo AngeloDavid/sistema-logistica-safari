@@ -24,4 +24,5 @@ USUARIO_APP: string;
 PASSWD_APP: string;
 EMAIL: string;
 CAMBIAR_PASSWD: string;
+EMPRESA: string;
 }

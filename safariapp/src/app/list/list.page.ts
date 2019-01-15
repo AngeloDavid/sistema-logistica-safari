@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {AlertController, LoadingController} from '@ionic/angular';
+import { User } from '../../interfaces/index';
+import {AlertController, LoadingController, Events} from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { Logistic } from '../../interfaces/index';
+import { RouteService } from '../api/route.service';
+import * as moment from 'moment';
 
 
 @Component({
@@ -23,11 +26,22 @@ export class ListPage implements OnInit {
   eventList: Logistic [];
   selectedEvent: any;
   isSelected: any;
+  user: User;
 
   constructor(private router: Router, private alertCtrl: AlertController,
-    public loadCtrl: LoadingController, private storage: Storage ) {
+    public loadCtrl: LoadingController, private storage: Storage,
+    public routersv: RouteService,
+    public events: Events ) {
       this.monthNames = ['Ene', 'Feb', 'Mar', 'Apr' , 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct' , 'Nov', 'Dec'];
       this.date = new Date ();
+
+      this.storage.get('userlogin').then((val) => {
+        this.user = val;
+      });
+      this.events.subscribe('userlogin', (user) => {
+        this.user = user;
+        console.log(this.user);
+      });
      }
 
   ngOnInit() {
@@ -99,16 +113,30 @@ export class ListPage implements OnInit {
 
   loadEventThisMonth() {
     this.eventList = new Array();
-    this.storage.get('listlog').then( (val) => {
-      this.eventList = val;
-     }).then(() => {
-      this.getDaysOfMonth();
-     }).then( () => {
-      this.selectDate(this.date.getDate());
-     });
+    // coregir este detalle para que sea por anio
+    this.routersv.getalllogistcs(this.date.getFullYear() + '-01-01', this.date.getFullYear() + '-12-01', this.user.CODIGO_NOMINA)
+    .subscribe((data: any) => {
+      if ( data.CODE === 200 ) {
+        this.eventList = data.value;
+        this.getDaysOfMonth();
+        this.selectDate(this.date.getDate());
+      } else {
+        console.log('cambiar');
+      }
+    });
+
+    // this.storage.get('listlog').then( (val) => {
+    //   console.log(val);
+    //   this.eventList = val;
+    //  }).then(() => {
+    //   this.getDaysOfMonth();
+    //  }).then( () => {
+    //   this.selectDate(this.date.getDate());
+    //  });
   }
   StringtoDate(value) {
-    return new Date (value);
+    // console.log(value, 'string');
+    return new Date (value.substring(0, 10) + ' ' + value.substring(11, 16));
   }
   checkEvent(day) {
     let hasEvent = false;
@@ -117,7 +145,9 @@ export class ListPage implements OnInit {
     // console.log( this.eventList != null );
     if ( this.eventList != null ) {
       this.eventList.forEach(et => {
-        if (( new Date(et.FECHA_LOG)  >= thisDate1) && ( new Date (et.FECHA_LOG) <= thisDate2)) {
+        const dt = et.FECHA_LOG.substring(0, 10) + ' ' + et.FECHA_LOG.substring(11, 16);
+        // console.log(dt, 'fecha actualxa');
+        if (( new Date( dt )  >= thisDate1) && ( new Date (dt) <= thisDate2)) {
           hasEvent = true;
         }
       });
@@ -133,7 +163,8 @@ export class ListPage implements OnInit {
   //  console.log( this.eventList != null );
     if ( this.eventList != null ) {
       this.eventList.forEach(et => {
-        if (( new Date(et.FECHA_LOG)  >= thisDate1) && ( new Date (et.FECHA_LOG) <= thisDate2)) {
+        const dt = et.FECHA_LOG.substring(0, 10) + ' ' + et.FECHA_LOG.substring(11, 16);
+        if (( new Date(dt)  >= thisDate1) && ( new Date (dt) <= thisDate2)) {
           this.isSelected = true;
           this.selectedEvent.push(et);
         }

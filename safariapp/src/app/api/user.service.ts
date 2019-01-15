@@ -24,7 +24,7 @@ export class UserService {
   // Metodo que se conecta con el servidor para ver si existe el usuario
   loginUser(user: string, password: string) {
     console.log('Service');
-    return this.http.get(this.url + 'get?id=\'' + user + '\'&id1=\'' + password + '\'');
+    return this.http.get(this.url + 'get?id=\'' + user + '\'&id1=\'' + password + '\'', {headers: this.cabecera});
   }
 
   // cambiar datos

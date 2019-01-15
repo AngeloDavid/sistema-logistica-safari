@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-// import { Calendar } from '@ionic-native/calendar/ngx';
 import {AlertController, Events, LoadingController} from '@ionic/angular';
 import {Logistic} from '../../interfaces/index';
 import { Storage } from '@ionic/storage';
+import { RouteService } from '../api/route.service';
 import * as moment from 'moment';
 @Component({
   selector: 'app-addroute',
@@ -34,6 +34,7 @@ export class AddroutePage implements OnInit {
     private routeParms: ActivatedRoute,
     public loadCtrl: LoadingController,
     public alertCtrl: AlertController,
+    public routerserv: RouteService,
     // private calendar: Calendar,
     private storage: Storage) {
       this.storage.get('userlogin').then((val) => {
@@ -51,7 +52,7 @@ export class AddroutePage implements OnInit {
     this.storage.get('listlog').then( (val) => {
       this.Listlg = val != null ? val : new Array();
      /// console.log (this.Listlg );
-      this.routeParms.params.subscribe(data => {
+      this.routeParms.params.subscribe(( data: any) => {
         // console.log(data);
         if (data.action === 'edit') {
           this.isnew = false;
@@ -65,9 +66,6 @@ export class AddroutePage implements OnInit {
         }
       });
     });
-    this.storage.get('indexlg').then((val) => {
-      this.indexlg = val != null ? val : 0 ;
-    } );
   }
   gotoaddRoute() {
     this.router.navigate(['/list']);
@@ -80,7 +78,7 @@ export class AddroutePage implements OnInit {
     });
 
     await alert.present();
-    this.logistica.CODIGO_LOG = '000' + (this.indexlg + 1);
+    // this.logistica.CODIGO_LOG = '000' + (this.indexlg + 1);
     const fecha1 = new Date(this.logistica.TURNO_LOG);
     const fecha2 = new Date(this.logistica.FECHA_LOG);
     fecha2.setHours(fecha1.getHours(), fecha1.getMinutes(), 0 , 0);
@@ -113,10 +111,18 @@ export class AddroutePage implements OnInit {
           }
         }
       } else {
-        this.Listlg.push(this.logistica);
-        this.indexlg++;
-        console.log('index', this.indexlg );
-        this.storage.set('indexlg', this.indexlg);
+        this.routerserv.addLogist(this.logistica).subscribe((data: any) => {
+          console.log(data);
+          if (data.CODE === 200) {
+            this.logistica.CODIGO_LOG = data.NUM_RECORRIDO;
+            console.log('index log', this.logistica );
+            this.Listlg.push(this.logistica);
+            this.storage.set('listlog', this.Listlg);
+            this.presentAlert('FELICIDADES', data.MSG);
+          } else {
+            this.presentAlert('ERROR', data.MSG);
+          }
+        } );
       }
     } else {
       this.Listlg.forEach(elet => {
@@ -126,32 +132,27 @@ export class AddroutePage implements OnInit {
         }
       });
     }
-    this.storage.set('listlog', this.Listlg);
+    console.log(this.Listlg, 'lista');
     alert.dismiss();
     this.router.navigate(['/list']);
-  /*  this.event.title = this.logistica.TIPO === 'I' ? 'Ingreso' : 'Salida' ;
-    this.event.location = this.logistica.OBSERVACION_CLIENTE;
-    this.event.startDate = this.logistica.FECHA_LOG;
-    this.event.endDate = this.logistica.FECHA_LOG;*/
+  }
 
-    /*this.calendar.createEvent(this.event.title, this.event.location,
-      this.event.message, new Date(this.event.startDate), new Date(this.event.endDate))
-      .then(
-      (msg) => {
-        const alert =  this.alertCtrl.create({
-          header: 'Success!',
-          subHeader: 'Event saved successfully',
-          buttons: ['OK']
-        });
-      },
-      (err) => {
-        const alert = this.alertCtrl.create({
-          header: 'Failed!',
-          subHeader: err,
-          buttons: ['OK']
-        });
-      }
-      );*/
+  async presentAlert(title: string, ms: string) {
+    const alert = await this.alertCtrl.create({
+      subHeader: title,
+      message: ms,
+      mode: 'ios',
+      buttons: [
+        {
+          text: 'OK',
+          handler: () => {
+            console.log('Confirm Okay');
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
 }
