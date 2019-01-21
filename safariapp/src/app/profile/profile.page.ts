@@ -192,7 +192,7 @@ export class ProfilePage implements OnInit {
   async CambiarPwd() {
     const modal = await this.modalController.create({
       component: MpChangePwdPage,
-      componentProps: { value: this.user.CODIGO_NOMINA }
+      componentProps: { value: this.user.CODIGO_NOMINA, origin : 'profile' }
     });
     return await modal.present();
   }

@@ -84,7 +84,7 @@ export class AppComponent {
         this.router.navigateByUrl('/login');
       }
       this.platform.ready().then(() => {
-        this.statusBar.styleDefault();
+        this.statusBar.styleLightContent();
         this.splashScreen.hide();
       });
     });

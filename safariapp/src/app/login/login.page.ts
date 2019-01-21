@@ -39,11 +39,11 @@ export class LoginPage implements OnInit {
     console.log('loginuser', this.idUser);
     this.userSer.loginUser(this.idUser.value, this.pwdUser.value).subscribe(
       (res: any) => {
-        if ( res.length === 0) {
-          this.msgmostrar('Intente de nuevo por favor', 'Error de ingreso');
+        if ( res.CODE === 400) {
+          this.msgmostrar(res.MSG, 'Error de ingreso');
+          cargando.dismiss();
         } else {
-          this.user = res[0];
-        console.log( res);
+          this.user = res.value[0];
         this.user.USUARIO_APP = this.idUser.value;
         this.storage.set('userlogin', this.user);
         this.events.publish('userlogin', this.user);
@@ -52,13 +52,14 @@ export class LoginPage implements OnInit {
         }
         this.router.navigateByUrl('/');
           console.log('¡ Solicitud recibida !');
+          cargando.dismiss();
         }
       },
       err => {
         console.log('¡ Solicitud NO RECIBIDA !', err);
         this.msgmostrar('Intente de nuevo por favor', 'Error de conexion');
+        cargando.dismiss();
       });
-      cargando.dismiss();
   }
   async  msgmostrar( msg: string , title: string) {
     const alert = await this.alertCtrl.create({
@@ -72,7 +73,7 @@ export class LoginPage implements OnInit {
   async CambiarPwd() {
     const modal = await this.modalController.create({
       component: MpChangePwdPage,
-      componentProps: { value: this.user.CODIGO_NOMINA }
+      componentProps: { value: this.user.CODIGO_NOMINA, origin : 'login' }
     });
     return await modal.present();
   }

@@ -2,6 +2,8 @@ import { LoadingController, AlertController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
+import { MenuController } from '@ionic/angular';
+import { User } from '../../interfaces/index';
 // import { Geolocation } from '@ionic-native/geolocation/ngx';
 declare var google;
 
@@ -19,13 +21,32 @@ export class HomePage implements OnInit {
     lng: 0
   };
   map: any;
-
+  user: User = {
+    CODIGO_CLIE: '',
+    CODIGO_NOMINA: '',
+    APELLIDOS: '',
+    NOMBRES: '',
+    AREA_TRABAJO: '',
+    BARRIO: '',
+    CALLE_PRINCIPAL: '',
+    NUM_CASA: '',
+    CALLE_SECUNDARIA: '',
+    REFERENCIA: '',
+    FONO_CELULAR: '',
+    RUTA: '',
+    USUARIO_APP: '',
+    PASSWD_APP: '',
+    EMAIL: '',
+    CAMBIAR_PASSWD: '',
+    EMPRESA: ''
+  };
   constructor(
     //  private geolocation: Geolocation,
     private loadinCtrl: LoadingController,
     private alertCtrl: AlertController,
     private storage: Storage,
     private router: Router,
+    private menu: MenuController
      ) {
   }
 
@@ -37,11 +58,16 @@ export class HomePage implements OnInit {
     this.storage.get('userlogin').then((val) => {
       console.log(val, 'valor' );
       if (val) {
+        this.user = val;
       } else {
         this.router.navigateByUrl('/login');
       }
     });
     // this.loadMap();
+  }
+  openMenu() {
+    this.menu.enable(true, 'menu');
+    this.menu.open('menu');
   }
   /*async loadMap () {
     // const loading = await this.loadinCtrl.create({
@@ -94,5 +120,11 @@ export class HomePage implements OnInit {
     });
 
     await alert.present();
+  }
+  MaysPrimera(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+  NombreUnido(apellido: string, nombre: string) {
+    return this.MaysPrimera(nombre.split(' ' , 1 )[0].toLowerCase()) + ' ' + this.MaysPrimera(apellido.split( ' ', 1)[0].toLowerCase());
   }
 }

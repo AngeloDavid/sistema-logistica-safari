@@ -1,6 +1,7 @@
+import { Router } from '@angular/router';
+import { Storage } from '@ionic/storage';
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { NavParams, AlertController } from '@ionic/angular';
+import { NavParams, AlertController, ModalController, Events } from '@ionic/angular';
 import {FormBuilder, FormGroup, Validators, AbstractControl} from '@angular/forms';
 import {UserService} from '../api/user.service';
 import {CustomValidators} from '../classes/custom-validators';
@@ -12,6 +13,7 @@ import {CustomValidators} from '../classes/custom-validators';
 export class MpChangePwdPage implements OnInit {
   changePwdForm: FormGroup;
   userid = '';
+  origin = '' ;
   pwdBefore: AbstractControl;
   pwdNow: AbstractControl;
   pwdconf: AbstractControl;
@@ -19,8 +21,12 @@ export class MpChangePwdPage implements OnInit {
     public navParams: NavParams,
     public alertCtrl: AlertController,
     private fb: FormBuilder,
-    private userSer: UserService) {
+    private userSer: UserService,
+    public events: Events,
+    private storage: Storage,
+    private router: Router) {
       this.userid = navParams.data.value;
+      this.origin = navParams.data.origin;
       this.changePwdForm = fb.group({
         'pwdBefore': ['', Validators.compose([Validators.required])],
         'pwdNow' : ['', Validators.compose ([
@@ -54,6 +60,11 @@ export class MpChangePwdPage implements OnInit {
       this.userSer.changePWD(this.pwdBefore.value, this.pwdNow.value , this.userid).subscribe((data) => {
         console.log(data);
         this.mctrl.dismiss();
+        // if (this.origin === 'profile') {
+        //   this.storage.remove('userlogin');
+        //   this.storage.remove('listlog');
+        //   this.router.navigateByUrl('/login');
+        // }
       }, (err) => {
         console.log(err);
       });

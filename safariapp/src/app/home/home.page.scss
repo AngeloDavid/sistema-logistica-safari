@@ -34,3 +34,9 @@ h3,h4,p{
     height: 100%;
     width: 100%;
   }
+
+  .homeback{
+    --background: url("../../assets/img/fondo.jpg") !important;
+    background-repeat: repeat;
+    background-position: left top;
+}

@@ -3,22 +3,22 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-buttons slot="end" (click)="morechange()">        
+    <!-- <ion-buttons slot="end" (click)="morechange()">        
         <ion-icon name="funnel"></ion-icon>
         <ion-icon name="arrow-down" *ngIf="more" ></ion-icon>        
         <ion-icon name="arrow-up" *ngIf="!more" ></ion-icon>        
-    </ion-buttons>
+    </ion-buttons> -->
     <ion-title>
       DobleVia
     </ion-title>
     
   </ion-toolbar>
 </ion-header>
-<ion-content>
-  <div col-12 class="date">
+<ion-content padding  class="homeback">
+  <!-- <div col-12 class="date">
         {{dtoday.toLocaleDateString()}}
-  </div>
-<ion-grid class="ruta" >
+  </div> -->
+<!-- <ion-grid class="ruta" >
     <ion-row *ngIf="more">
       <ion-col col-2>
       <img src="../../assets/img/user.png" style="height: 70px">
@@ -75,5 +75,35 @@
   </ion-fab>
   <div id="map">
 
-  </div>
+  </div> -->
+  <ion-grid style="height: 100%">
+    <ion-row justify-content-center align-items-center style="height: 100%">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <h1>Bienvenido(a)</h1>   
+          </ion-col> 
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <div text-center>
+              <img src="assets/img/user.png" style="width: 140px;padding-top: 6%">
+            </div>
+           </ion-col>           
+        </ion-row>
+        <ion-row>
+          <ion-col text-center>
+            <h2 no-margin> {{ NombreUnido (user.APELLIDOS, user.NOMBRES) }}</h2>
+            <p no-margin>{{ user.EMPRESA }}</p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-button shape="round" expand="full" (click)="openMenu()">Empezar</ion-button>
+           </ion-col> 
+        </ion-row>
+      </ion-grid>
+    </ion-row>
+  </ion-grid>
+
 </ion-content>
