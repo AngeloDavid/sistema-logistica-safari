@@ -12,7 +12,7 @@ import * as moment from 'moment';
 })
 export class AddroutePage implements OnInit {
 
-  event = { title: '', location: '', message: '', startDate: '', endDate: '' };
+  // event = { title: '', location: '', message: '', startDate: '', endDate: '' };
   datenow = new Date();
   dateend = new Date();
   dateendst: any;
@@ -30,12 +30,12 @@ export class AddroutePage implements OnInit {
   Listlg: Logistic [];
   indexlg: number;
   isrepeat: boolean;
+  // constructor
   constructor(private router: Router,
     private routeParms: ActivatedRoute,
     public loadCtrl: LoadingController,
     public alertCtrl: AlertController,
     public routerserv: RouteService,
-    // private calendar: Calendar,
     private storage: Storage) {
       this.storage.get('userlogin').then((val) => {
         this.logistica.CODIGO_CLIE = val.CODIGO_CLIE;
@@ -49,6 +49,7 @@ export class AddroutePage implements OnInit {
    }
 
   ngOnInit() {
+    // revisar listlog si es necesario
     this.storage.get('listlog').then( (val) => {
       this.Listlg = val != null ? val : new Array();
      /// console.log (this.Listlg );
@@ -56,13 +57,18 @@ export class AddroutePage implements OnInit {
         // console.log(data);
         if (data.action === 'edit') {
           this.isnew = false;
-          this.Listlg.forEach(element => {
-            if (element.CODIGO_LOG == data.CODIGO_LOG) {
+          this.Listlg.forEach((element: any) => {
+            if (element.CODIGO_LOG === data.CODIGO_LOG) {
               this.logistica = element;
             }
           });
         } else {
+          const fecha = new Date(data.dateNow);
+          fecha.setHours(0);
+          fecha.setMinutes(0);
+          fecha.setSeconds(0);
           this.isnew = true;
+          this.logistica.FECHA_LOG = fecha.toISOString();
         }
       });
     });
@@ -126,7 +132,7 @@ export class AddroutePage implements OnInit {
       }
     } else {
       this.Listlg.forEach(elet => {
-        if (elet.CODIGO_LOG == this.logistica.CODIGO_LOG) {
+        if (elet.CODIGO_LOG === this.logistica.CODIGO_LOG) {
           console.log('edut', this.logistica);
           elet = this.logistica;
         }

@@ -18,6 +18,7 @@
               <ion-datetime display-format="DD/MMM/YYYY" cancelText="Cancelar" doneText="Guardar"
               monthShortNames="Ene, Feb, Mar, Apr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic"
               [(ngModel)]="logistica.FECHA_LOG" name="logistica.FECHA_LOG" mode="ios"
+              min="{{  now.format('YYYY-MM-DD') }}"
               ></ion-datetime>
           </ion-item>
           <ion-item>

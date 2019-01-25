@@ -16,6 +16,7 @@ import * as moment from 'moment';
 export class ListPage implements OnInit {
 
   date: any;
+  dtoday: any = new Date();
   daysInThisMonth: any;
   daysInLastMonth: any;
   daysInNextMonth: any;
@@ -27,7 +28,7 @@ export class ListPage implements OnInit {
   selectedEvent: any;
   isSelected: any;
   user: User;
-
+  // constructor
   constructor(private router: Router, private alertCtrl: AlertController,
     public loadCtrl: LoadingController, private storage: Storage,
     public routersv: RouteService,
@@ -52,7 +53,8 @@ export class ListPage implements OnInit {
   gotoaddRoute(action, codelg) {
     const item = {
       action: action,
-      CODIGO_LOG: codelg
+      CODIGO_LOG: codelg,
+      dateNow: this.dtoday >=  this.date ? this.dtoday : this.date
     };
     this.router.navigate(['/addroute', item]);
   }
@@ -135,7 +137,6 @@ export class ListPage implements OnInit {
     //  });
   }
   StringtoDate(value) {
-    // console.log(value, 'string');
     return new Date (value.substring(0, 10) + ' ' + value.substring(11, 16));
   }
   checkEvent(day) {
@@ -146,7 +147,6 @@ export class ListPage implements OnInit {
     if ( this.eventList != null ) {
       this.eventList.forEach(et => {
         const dt = et.FECHA_LOG.substring(0, 10) + ' ' + et.FECHA_LOG.substring(11, 16);
-        // console.log(dt, 'fecha actualxa');
         if (( new Date( dt )  >= thisDate1) && ( new Date (dt) <= thisDate2)) {
           hasEvent = true;
         }
@@ -160,6 +160,7 @@ export class ListPage implements OnInit {
     this.selectedEvent = new Array();
     const thisDate1 = new Date ( this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + ' 00:00:00');
     const thisDate2 = new Date ( this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + ' 23:59:59');
+    this.dtoday = thisDate1;
   //  console.log( this.eventList != null );
     if ( this.eventList != null ) {
       this.eventList.forEach(et => {

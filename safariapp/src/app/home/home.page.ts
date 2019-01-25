@@ -1,4 +1,4 @@
-import { LoadingController, AlertController } from '@ionic/angular';
+import { LoadingController, AlertController, Platform } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
@@ -46,7 +46,8 @@ export class HomePage implements OnInit {
     private alertCtrl: AlertController,
     private storage: Storage,
     private router: Router,
-    private menu: MenuController
+    private menu: MenuController,
+    private platform: Platform
      ) {
   }
 
@@ -61,6 +62,7 @@ export class HomePage implements OnInit {
         this.user = val;
       } else {
         this.router.navigateByUrl('/login');
+
       }
     });
     // this.loadMap();
