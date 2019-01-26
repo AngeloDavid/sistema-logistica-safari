@@ -44,12 +44,24 @@
               <ion-row class="calendar-date">
                 <ion-col col-1 *ngFor="let lastDay of daysInLastMonth" class="last-month">{{lastDay}}</ion-col>
                 <ion-col col-1 *ngFor="let day of daysInThisMonth"  (click)="selectDate(day)" >
-                  <span class="currentDate" *ngIf="currentDate === day; else otherDate">{{day}}</span>
-                  <ng-template #otherDate class="otherDate">{{day}}<br>
+                    <span class="currentDate" *ngIf="currentDate === day; else otherDate">{{day}}</span>
+                    <ng-template #otherDate>
+                        <div [ngSwitch]="day">
+                            <span class="currentDate" *ngSwitchCase="currentDate">{{day}} </span>                    
+                            <span class="selected-date" *ngSwitchCase="selectDay ">{{day}}</span>                    
+                            <div *ngSwitchDefault>
+                                <span>{{day}}</span>
+                                <div *ngIf="eventList != null " >
+                                    <div class="event-bullet" *ngIf="checkEvent(day)"></div>
+                                  </div>
+                            </div>
+                          </div>
+                    </ng-template>                  
+                  <!-- <ng-template #otherDate class="otherDate" >{{ day }}<br>                    
                     <div *ngIf="eventList != null " >
                       <div class="event-bullet" *ngIf="checkEvent(day)"></div>
                     </div>
-                  </ng-template>
+                  </ng-template> -->
                 </ion-col>
                 <ion-col col-1 *ngFor="let nextDay of daysInNextMonth" class="next-month">{{nextDay}}</ion-col>
               </ion-row>

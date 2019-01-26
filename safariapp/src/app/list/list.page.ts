@@ -24,6 +24,7 @@ export class ListPage implements OnInit {
   currentMonth: any;
   currentYear: any;
   currentDate: any;
+  selectDay: any;
   eventList: Logistic [];
   selectedEvent: any;
   isSelected: any;
@@ -66,8 +67,8 @@ export class ListPage implements OnInit {
     });
 
     await alert.present()
-      .then(() => { this.loadEventThisMonth(); } )
-      .then(() => { alert.dismiss(); } )
+      .then(() => { this.loadEventThisMonth(alert); } )
+      // .then(() => { alert.dismiss(); } )
       .then(() => { console.log('Refesh'); });
   }
 
@@ -113,19 +114,26 @@ export class ListPage implements OnInit {
     this.getDaysOfMonth();
   }
 
-  loadEventThisMonth() {
+  loadEventThisMonth(alert: any ) {
     this.eventList = new Array();
     // coregir este detalle para que sea por anio
+    this.getDaysOfMonth();
     this.routersv.getalllogistcs(this.date.getFullYear() + '-01-01', this.date.getFullYear() + '-12-01', this.user.CODIGO_NOMINA)
     .subscribe((data: any) => {
       if ( data.CODE === 200 ) {
         this.eventList = data.value;
-        this.getDaysOfMonth();
         this.selectDate(this.date.getDate());
+        alert.dismiss();
       } else {
+        alert.dismiss();
         console.log('cambiar');
       }
-    });
+    },
+    (error: any) => {
+      this.presentAlert('ERROR', 'Problemas de conexion con el servidor');
+      alert.dismiss();
+    }
+    );
 
     // this.storage.get('listlog').then( (val) => {
     //   console.log(val);
@@ -161,6 +169,7 @@ export class ListPage implements OnInit {
     const thisDate1 = new Date ( this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + ' 00:00:00');
     const thisDate2 = new Date ( this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + ' 23:59:59');
     this.dtoday = thisDate1;
+    this.selectDay = day;
   //  console.log( this.eventList != null );
     if ( this.eventList != null ) {
       this.eventList.forEach(et => {
@@ -199,6 +208,24 @@ export class ListPage implements OnInit {
             console.log(this.eventList, 'preuba');
             this.storage.set('listlog', this.eventList);
             this.selectDate(new Date(fecha).getDate());
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async presentAlert(title: string, ms: string) {
+    const alert = await this.alertCtrl.create({
+      subHeader: title,
+      message: ms,
+      mode: 'ios',
+      buttons: [
+        {
+          text: 'OK',
+          handler: () => {
+            console.log('Confirm Okay');
           }
         }
       ]

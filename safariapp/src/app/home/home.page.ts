@@ -57,7 +57,7 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.storage.get('userlogin').then((val) => {
-      console.log(val, 'valor' );
+    //   console.log(val, 'valor' );
       if (val) {
         this.user = val;
       } else {
