@@ -61,7 +61,7 @@ export class HomePage implements OnInit {
       if (val) {
         this.user = val;
       } else {
-        this.router.navigateByUrl('/login');
+        // this.router.navigateByUrl('/login');
 
       }
     });

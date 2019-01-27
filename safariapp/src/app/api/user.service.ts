@@ -29,8 +29,8 @@ export class UserService {
 
   // cambiar datos
   updateUser(user: User) {
-    const urluser = this.url + 'updatedt?id=\'' + user.FONO_CELULAR + '\'&id1=\'' + user.FONO_CASA
-    + '\'&id2=\'' + user.EMAIL + '\'&id3=\'' + user.USUARIO_APP + '\'' ;
+    const urluser = this.url + 'updatedt?id=' + user.FONO_CELULAR + '&id1=' + user.FONO_CASA
+    + '&id2=' + user.EMAIL + '&id3=' + user.USUARIO_APP  ;
     console.log(urluser);
     return this.http.put(urluser, user, {headers: this.cabecera});
   }
@@ -38,8 +38,8 @@ export class UserService {
   // cambiar contraseña
   changePWD (pwdBefore: string, pwdNow: string, userCode: string) {
     const datos = {};
-    const urlpwd = this.url + 'updateps?id=\'' + pwdNow + '\'&id1=\'' + userCode
-    + '\'&id2=\'' + pwdBefore + '\'';
+    const urlpwd = this.url + 'updateps?id=' + pwdNow + '&id1=' + userCode
+    + '&id2=' + pwdBefore;
     console.log(urlpwd);
     return this.http.put( urlpwd , datos, {headers: this.cabecera});
   }

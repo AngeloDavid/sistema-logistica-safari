@@ -115,7 +115,7 @@ export class AppComponent {
               console.log('CS/ Confirm Okay');
               this.storage.remove('userlogin');
               this.storage.remove('listlog');
-              this.router.navigateByUrl('/login');
+              this.router.navigate(['login'], {skipLocationChange: true});
             }
           }
         ]

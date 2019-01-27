@@ -124,11 +124,17 @@ export class AddroutePage implements OnInit {
             console.log('index log', this.logistica );
             this.Listlg.push(this.logistica);
             this.storage.set('listlog', this.Listlg);
-            this.presentAlert('FELICIDADES', data.MSG);
+            alert.dismiss();
+            this.presentAlert('FELICIDADES', data.MSG, true);
           } else {
-            this.presentAlert('ERROR', data.MSG);
+            alert.dismiss();
+            this.presentAlert('ERROR', data.MSG, false);
           }
-        } );
+        }, (error: any) => {
+          alert.dismiss();
+          this.presentAlert('ERROR', 'Problemas de conexion con el servidor', false);
+          }
+        );
       }
     } else {
       this.Listlg.forEach(elet => {
@@ -139,11 +145,10 @@ export class AddroutePage implements OnInit {
       });
     }
     console.log(this.Listlg, 'lista');
-    alert.dismiss();
-    this.router.navigate(['/list']);
   }
 
-  async presentAlert(title: string, ms: string) {
+  // parametros: titulo, mensaje, ir a lista = true
+  async presentAlert(title: string, ms: string, gotoList: boolean) {
     const alert = await this.alertCtrl.create({
       subHeader: title,
       message: ms,
@@ -152,7 +157,9 @@ export class AddroutePage implements OnInit {
         {
           text: 'OK',
           handler: () => {
-            console.log('Confirm Okay');
+            if (gotoList) {
+              this.router.navigate(['/list']);
+            }
           }
         }
       ]

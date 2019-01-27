@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import { Component, OnInit } from '@angular/core';
-import { NavParams, AlertController, ModalController, Events } from '@ionic/angular';
+import { NavParams, AlertController, ModalController, LoadingController, Events } from '@ionic/angular';
 import {FormBuilder, FormGroup, Validators, AbstractControl} from '@angular/forms';
 import {UserService} from '../api/user.service';
 import {CustomValidators} from '../classes/custom-validators';
@@ -20,6 +20,7 @@ export class MpChangePwdPage implements OnInit {
   constructor(public mctrl: ModalController,
     public navParams: NavParams,
     public alertCtrl: AlertController,
+    public loadCtrl: LoadingController,
     private fb: FormBuilder,
     private userSer: UserService,
     public events: Events,
@@ -55,29 +56,60 @@ export class MpChangePwdPage implements OnInit {
   dismiss() {
     this.mctrl.dismiss();
   }
-  changepwd() {
+  async changepwd() {
+    // loading
+    const load = await this.loadCtrl.create({
+      message: `Cargando ...`,
+      spinner: 'bubbles'
+    });
+    await load.present();
     if ( this.pwdNow.value === this.pwdconf.value) {
-      this.userSer.changePWD(this.pwdBefore.value, this.pwdNow.value , this.userid).subscribe((data) => {
+      this.userSer.changePWD(this.pwdBefore.value, this.pwdNow.value , this.userid).subscribe((data: any) => {
+        const originb = this.origin === 'profile' ? true : false;
         console.log(data);
-        this.mctrl.dismiss();
-        // if (this.origin === 'profile') {
-        //   this.storage.remove('userlogin');
-        //   this.storage.remove('listlog');
-        //   this.router.navigateByUrl('/login');
-        // }
+        switch ( data.CODE) {
+          case 200:
+            this.storage.remove('userlogin');
+            this.storage.remove('listlog');
+            load.dismiss().then( () => {
+                this.msgmostrar('!!Operacion exitosa!!', 'El Cambio de contraseña se realizo correctamente', true, originb );
+              }
+            );
+            break;
+          default:
+          load.dismiss().then( () => {
+            this.msgmostrar('ERROR', 'Verifique que la contraseña anterior sea la correcta', false, false );
+            }
+          );
+            break;
+        }
       }, (err) => {
-        console.log(err);
+        load.dismiss();
+        this.msgmostrar('ERROR', 'Problemas de conexion con el servidor', false, false);
       });
     } else {
-      this.msgmostrar('ERROR', 'La nueva contraseña no coincide');
+      load.dismiss();
+      this.msgmostrar('ERROR', 'La nueva contraseña no coincide', false, false);
     }
 
   }
-  async  msgmostrar(title, msg) {
+  async  msgmostrar(title, msg, exitnow: boolean, logout: boolean  ) {
     const alert = await this.alertCtrl.create({
         header: title,
         message: msg,
-        buttons: ['OK']
+        buttons: [
+           {
+            text: 'Ok',
+            handler: () => {
+              if (exitnow) {
+                this.mctrl.dismiss();
+              }
+              if (logout) {
+                this.router.navigateByUrl('/login');
+              }
+            }
+          }
+        ]
     });
     await alert.present();
   }

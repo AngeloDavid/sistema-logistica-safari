@@ -40,8 +40,8 @@ export class LoginPage implements OnInit {
     this.userSer.loginUser(this.idUser.value, this.pwdUser.value).subscribe(
       (res: any) => {
         if ( res.CODE === 400) {
-          this.msgmostrar(res.MSG, 'Error de ingreso');
           cargando.dismiss();
+          this.msgmostrar(res.MSG, 'Error de ingreso');
         } else {
           this.user = res.value[0];
         this.user.USUARIO_APP = this.idUser.value;
@@ -51,14 +51,13 @@ export class LoginPage implements OnInit {
           this.CambiarPwd();
         }
         this.router.navigateByUrl('/');
-          console.log('¡ Solicitud recibida !');
+          // console.log('¡ Solicitud recibida !');
           cargando.dismiss();
         }
       },
       err => {
-        console.log('¡ Solicitud NO RECIBIDA !', err);
-        this.msgmostrar('Intente de nuevo por favor', 'Error de conexion');
         cargando.dismiss();
+        this.msgmostrar('Intente de nuevo por favor', 'Error de conexion');
       });
   }
   async  msgmostrar( msg: string , title: string) {

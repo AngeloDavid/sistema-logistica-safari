@@ -66,10 +66,8 @@ export class ListPage implements OnInit {
       spinner: 'bubbles'
     });
 
-    await alert.present()
-      .then(() => { this.loadEventThisMonth(alert); } )
-      // .then(() => { alert.dismiss(); } )
-      .then(() => { console.log('Refesh'); });
+    await alert.present();
+    this.loadEventThisMonth(alert);
   }
 
   // metodos calendario
@@ -116,8 +114,8 @@ export class ListPage implements OnInit {
 
   loadEventThisMonth(alert: any ) {
     this.eventList = new Array();
-    // coregir este detalle para que sea por anio
     this.getDaysOfMonth();
+    // coregir este detalle para que sea por anio
     this.routersv.getalllogistcs(this.date.getFullYear() + '-01-01', this.date.getFullYear() + '-12-01', this.user.CODIGO_NOMINA)
     .subscribe((data: any) => {
       if ( data.CODE === 200 ) {
@@ -130,8 +128,8 @@ export class ListPage implements OnInit {
       }
     },
     (error: any) => {
-      this.presentAlert('ERROR', 'Problemas de conexion con el servidor');
       alert.dismiss();
+      this.presentAlert('ERROR', 'Problemas de conexion con el servidor');
     }
     );
 
