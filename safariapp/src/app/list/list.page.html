@@ -56,12 +56,7 @@
                                   </div>
                             </div>
                           </div>
-                    </ng-template>                  
-                  <!-- <ng-template #otherDate class="otherDate" >{{ day }}<br>                    
-                    <div *ngIf="eventList != null " >
-                      <div class="event-bullet" *ngIf="checkEvent(day)"></div>
-                    </div>
-                  </ng-template> -->
+                    </ng-template>                                    
                 </ion-col>
                 <ion-col col-1 *ngFor="let nextDay of daysInNextMonth" class="next-month">{{nextDay}}</ion-col>
               </ion-row>
@@ -83,12 +78,14 @@
                       <ion-card-title>{{StringtoDate(se.TURNO_LOG).toLocaleTimeString() }}</ion-card-title>
                   </ion-col>                    
                   <ion-col size="5" no-padding >
-                    <!-- <ion-row align-items-end no-padding >
+                    
+                    <ion-row align-items-end no-padding >
                       <ion-col no-padding text-center>
-                          <ion-button   shape="round" color="danger" size="small" (click)="gotoaddRoute('edit',se.CODIGO_LOG)" ><ion-icon name="build"></ion-icon></ion-button>
-                          <ion-button   shape="round"  color="danger" size="small" (click)="deleteEvent(se.CODIGO_LOG,se.FECHA_LOG)" ><ion-icon name="close"></ion-icon></ion-button>                          
+                          <ion-button  *ngIf="se.FONO_CELULAR != null"  shape="round" color="danger" size="small" (click)="llamar()" ><ion-icon name="call"></ion-icon></ion-button>
+                          <!-- <ion-button   shape="round" color="danger" size="small" (click)="gotoaddRoute('edit',se.CODIGO_LOG)" ><ion-icon name="build"></ion-icon></ion-button>
+                          <ion-button   shape="round"  color="danger" size="small" (click)="deleteEvent(se.CODIGO_LOG,se.FECHA_LOG)" ><ion-icon name="close"></ion-icon></ion-button>                           -->
                       </ion-col>                      
-                    </ion-row>                                 -->
+                    </ion-row>                                
                   </ion-col>
                 </ion-row>                
               </ion-grid>              
@@ -102,14 +99,17 @@
                   <ion-item class="activated">
                       <ion-icon name="Person" slot="start"></ion-icon>
                       <ion-label>Conductor</ion-label>
+                      {{ se.CONDUCTOR }}
                     </ion-item>                
                     <ion-item >
                       <ion-icon name="car" slot="start"></ion-icon>
                       <ion-label>Placa</ion-label>
+                      {{ se.NUMPLACA }}
                     </ion-item>                  
                     <ion-item class="activated">
                       <ion-icon name="clock" slot="start"></ion-icon>
                       <ion-label>Hora de llegada</ion-label>
+                      {{ se.HORA_LLEGADA }}
                     </ion-item>                  
                     <ion-item>
                       <ion-icon name="star" slot="start"></ion-icon>

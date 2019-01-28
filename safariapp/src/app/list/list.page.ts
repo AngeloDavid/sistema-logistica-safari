@@ -179,7 +179,9 @@ export class ListPage implements OnInit {
       });
     }
   }
+  llamar() {
 
+  }
   async deleteEvent(ilog, fecha) {
     console.log('index', ilog, fecha);
     const alert = await this.alertCtrl.create({
