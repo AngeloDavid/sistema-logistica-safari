@@ -5,8 +5,8 @@ import {AlertController, LoadingController, Events} from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { Logistic } from '../../interfaces/index';
 import { RouteService } from '../api/route.service';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 import * as moment from 'moment';
-
 
 @Component({
   selector: 'app-list',
@@ -33,7 +33,8 @@ export class ListPage implements OnInit {
   constructor(private router: Router, private alertCtrl: AlertController,
     public loadCtrl: LoadingController, private storage: Storage,
     public routersv: RouteService,
-    public events: Events ) {
+    public events: Events,
+    private callNumber: CallNumber ) {
       this.monthNames = ['Ene', 'Feb', 'Mar', 'Apr' , 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct' , 'Nov', 'Dec'];
       this.date = new Date ();
 
@@ -179,8 +180,12 @@ export class ListPage implements OnInit {
       });
     }
   }
-  llamar() {
-
+  llamar(numbercall) {
+    this.callNumber.callNumber(numbercall, true)
+    .then(res => {
+      this.presentAlert('LLamada Exitosa', '');
+    })
+    .catch(err => { this.presentAlert('error', err); } );
   }
   async deleteEvent(ilog, fecha) {
     console.log('index', ilog, fecha);

@@ -81,7 +81,7 @@
                     
                     <ion-row align-items-end no-padding >
                       <ion-col no-padding text-center>
-                          <ion-button  *ngIf="se.FONO_CELULAR != null"  shape="round" color="danger" size="small" (click)="llamar()" ><ion-icon name="call"></ion-icon></ion-button>
+                          <ion-button  *ngIf="se.FONO_CELULAR != null"  shape="round" color="danger" size="small" (click)="llamar(se.FONO_CELULAR)" ><ion-icon name="call"></ion-icon></ion-button>
                           <!-- <ion-button   shape="round" color="danger" size="small" (click)="gotoaddRoute('edit',se.CODIGO_LOG)" ><ion-icon name="build"></ion-icon></ion-button>
                           <ion-button   shape="round"  color="danger" size="small" (click)="deleteEvent(se.CODIGO_LOG,se.FECHA_LOG)" ><ion-icon name="close"></ion-icon></ion-button>                           -->
                       </ion-col>                      

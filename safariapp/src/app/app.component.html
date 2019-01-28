@@ -1,6 +1,6 @@
 <ion-app>
   <ion-split-pane>
-    <ion-menu menuId="menu">
+    <ion-menu menuId="menu" *ngIf="user.CODIGO_NOMINA != ''" >
       <ion-header>
         <ion-toolbar color="danger">
           <ion-title>Menu</ion-title>

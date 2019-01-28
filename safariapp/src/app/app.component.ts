@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { User, Logistic } from '../interfaces/index';
 import { Platform, Events, AlertController } from '@ionic/angular';
+// import { Platform } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Storage } from '@ionic/storage';
@@ -54,12 +55,30 @@ export class AppComponent {
     CAMBIAR_PASSWD: '',
     EMPRESA: ''
   };
-
+  uservacio: User = {
+    CODIGO_CLIE: '',
+    CODIGO_NOMINA: '',
+    APELLIDOS: '',
+    NOMBRES: '',
+    AREA_TRABAJO: '',
+    BARRIO: '',
+    CALLE_PRINCIPAL: '',
+    NUM_CASA: '',
+    CALLE_SECUNDARIA: '',
+    REFERENCIA: '',
+    FONO_CELULAR: '',
+    RUTA: '',
+    USUARIO_APP: '',
+    PASSWD_APP: '',
+    EMAIL: '',
+    CAMBIAR_PASSWD: '',
+    EMPRESA: ''
+  };
   listLogt: Logistic [] = [];
 
   constructor(
     private router: Router,
-    private platform: Platform,
+    public platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     public events: Events,
@@ -115,7 +134,9 @@ export class AppComponent {
               console.log('CS/ Confirm Okay');
               this.storage.remove('userlogin');
               this.storage.remove('listlog');
+              this.events.publish('userlogin', this.uservacio);
               this.router.navigate(['login'], {skipLocationChange: true});
+            //  this.platform.exitApp();
             }
           }
         ]

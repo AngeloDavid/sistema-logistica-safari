@@ -44,15 +44,16 @@ export class LoginPage implements OnInit {
           this.msgmostrar(res.MSG, 'Error de ingreso');
         } else {
           this.user = res.value[0];
-        this.user.USUARIO_APP = this.idUser.value;
-        this.storage.set('userlogin', this.user);
-        this.events.publish('userlogin', this.user);
-        if ( this.user.CAMBIAR_PASSWD === '0' ) {
-          this.CambiarPwd();
-        }
-        this.router.navigateByUrl('/');
-          // console.log('¡ Solicitud recibida !');
+          this.user.USUARIO_APP = this.idUser.value;
+          this.storage.set('userlogin', this.user);
+          this.events.publish('userlogin', this.user);
+          if ( this.user.CAMBIAR_PASSWD === '0' ) {
+            this.CambiarPwd();
+          }
           cargando.dismiss();
+          this.router.navigateByUrl('/');
+          this.idUser.setValue(null);
+          this.pwdUser.setValue(null);
         }
       },
       err => {
