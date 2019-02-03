@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { User } from '../../interfaces/index';
 import {AlertController, LoadingController, Events} from '@ionic/angular';
 import { Storage } from '@ionic/storage';
@@ -30,7 +30,7 @@ export class ListPage implements OnInit {
   isSelected: any;
   user: User;
   // constructor
-  constructor(private router: Router, private alertCtrl: AlertController,
+  constructor(private router: Router, private routeParms: ActivatedRoute, private alertCtrl: AlertController,
     public loadCtrl: LoadingController, private storage: Storage,
     public routersv: RouteService,
     public events: Events,
@@ -50,6 +50,12 @@ export class ListPage implements OnInit {
   ngOnInit() {
     console.log('cargando');
     this.refresh();
+    this.routeParms.params.subscribe(( data: any) => {
+      console.log(data);
+      if ( data.refreshlist === 1 ) {
+        this.refresh();
+      }
+    });
   }
 
   gotoaddRoute(action, codelg) {
@@ -181,11 +187,13 @@ export class ListPage implements OnInit {
     }
   }
   llamar(numbercall) {
-    this.callNumber.callNumber(numbercall, true)
-    .then(res => {
-      this.presentAlert('LLamada Exitosa', '');
-    })
-    .catch(err => { this.presentAlert('error', err); } );
+    if ( numbercall != null) {
+      this.callNumber.callNumber(numbercall, true)
+      .then(res => {
+        this.presentAlert('LLamada Exitosa', '');
+      })
+      .catch(err => { this.presentAlert('error', err); } );
+    }
   }
   async deleteEvent(ilog, fecha) {
     console.log('index', ilog, fecha);

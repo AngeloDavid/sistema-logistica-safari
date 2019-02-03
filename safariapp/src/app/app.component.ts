@@ -5,7 +5,7 @@ import { Platform, Events, AlertController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Storage } from '@ionic/storage';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -78,6 +78,7 @@ export class AppComponent {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     public platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
@@ -135,8 +136,7 @@ export class AppComponent {
               this.storage.remove('userlogin');
               this.storage.remove('listlog');
               this.events.publish('userlogin', this.uservacio);
-              this.router.navigate(['login'], {skipLocationChange: true});
-            //  this.platform.exitApp();
+              this.router.navigate(['login'], {skipLocationChange: true, replaceUrl: true});
             }
           }
         ]

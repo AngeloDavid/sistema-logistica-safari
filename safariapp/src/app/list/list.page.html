@@ -11,13 +11,13 @@
     </ion-title>
   </ion-toolbar>
   <div col-12 class="date" [ngSwitch]="dtoday.getDay()" >
-      <span *ngSwitchCase="'0'">Lunes</span>
-      <span *ngSwitchCase="'1'">Martes</span>
-      <span *ngSwitchCase="'2'">Miercoles</span>
-      <span *ngSwitchCase="'3'">Jueves</span>
-      <span *ngSwitchCase="'4'">Viernes</span>
-      <span *ngSwitchCase="'5'">Sabado</span>
-      <span *ngSwitchCase="'6'">Domingo</span>
+      <span *ngSwitchCase="'0'">Domingo</span>
+      <span *ngSwitchCase="'1'">Lunes</span>
+      <span *ngSwitchCase="'2'">Martes</span>
+      <span *ngSwitchCase="'3'">Miercoles</span>
+      <span *ngSwitchCase="'4'">Jueves</span>
+      <span *ngSwitchCase="'5'">Viernes</span>
+      <span *ngSwitchCase="'6'">Sabado</span>
       , {{ dtoday.toLocaleDateString()}}
   </div>
   <div padding  >
@@ -110,10 +110,15 @@
                       <ion-icon name="clock" slot="start"></ion-icon>
                       <ion-label>Hora de llegada</ion-label>
                       {{ se.HORA_LLEGADA }}
-                    </ion-item>                  
-                    <ion-item>
-                      <ion-icon name="star" slot="start"></ion-icon>
-                      <ion-label>Clasificacion</ion-label>
+                    </ion-item> 
+                    <ion-item    (click)="llamar(se.FONO_CELULAR)">
+                      <ion-icon name="call" slot="start"></ion-icon>
+                      <ion-label>Telefono</ion-label>
+                      {{ se.FONO_CELULAR }}
+                    </ion-item>
+                    <ion-item class="activated" >
+                      <ion-icon name="star" slot="start" ></ion-icon>
+                      <ion-label>Clasificación</ion-label>
                     </ion-item>
               </ion-list>                
             </ion-card-content>

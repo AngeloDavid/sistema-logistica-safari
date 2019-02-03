@@ -74,7 +74,7 @@ export class AddroutePage implements OnInit {
     });
   }
   gotoaddRoute() {
-    this.router.navigate(['/list']);
+    this.router.navigate(['/list', { refreshlist: 1 } ]);
   }
 
   async save() {
@@ -144,7 +144,7 @@ export class AddroutePage implements OnInit {
         }
       });
     }
-    console.log(this.Listlg, 'lista');
+   // console.log(this.Listlg, 'lista');
   }
 
   // parametros: titulo, mensaje, ir a lista = true
@@ -158,7 +158,8 @@ export class AddroutePage implements OnInit {
           text: 'OK',
           handler: () => {
             if (gotoList) {
-              this.router.navigate(['/list']);
+              const refrescar = true;
+              this.router.navigate(['/list', { refreshlist: 1 } ]);
             }
           }
         }
