@@ -10,6 +10,10 @@
     .col {
       text-align: center;
       padding: 5px;
+      
+    }
+    ion-avatar{
+      margin: auto;
     }
     .last-month, .next-month {
       color: #999999;
@@ -36,9 +40,11 @@
       border-radius: 30px;
     }
     .selected-date {
-      color: #21196e;
+      // color: #21196e;
+      background:  #54419d ;
+      color:#FFFFFF;
       border-radius: 30px;
-      border-color: #21196e;
+      border-color: #54419d;
       border-style: solid;
       border-width: 1.5px;
       font-weight: bold;

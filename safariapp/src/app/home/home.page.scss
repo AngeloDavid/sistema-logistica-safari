@@ -37,6 +37,23 @@ h3,h4,p{
 
   .homeback{
     --background: url("../../assets/img/fondo.jpg") !important;
+    -webkit-background: url("../../assets/img/fondo.jpg") !important;
+    -moz-background: url("../../assets/img/fondo.jpg") !important;
+    -webkit-background-repeat: repeat;
+    -webkit-background-position: left top;
     background-repeat: repeat;
     background-position: left top;
+}
+
+h1{
+    font-size: 2.5em;
+}
+h2{
+    font-size: 2em;
+}
+p{
+    font-size: 1.5em;
+}
+ion-button{
+    font-size: 1em;
 }

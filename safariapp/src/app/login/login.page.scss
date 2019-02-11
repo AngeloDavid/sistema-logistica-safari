@@ -5,7 +5,11 @@ ion-row{
     //background-image: url(https://doblevia.org/wp-content/uploads/2014/12/fondo-de-textura-de-lino-gris_1053-253.jpg);
     --background: url("../../assets/img/fondo.jpg") !important;
     background-repeat: repeat;
-    background-position: left top;
+    background-position: left top;    
+    -webkit-background: url("../../assets/img/fondo.jpg") !important;
+    -moz-background: url("../../assets/img/fondo.jpg") !important;
+    -webkit-background-repeat: repeat;
+    -webkit-background-position: left top;
     padding-bottom: 0 !important;
 }
 form {

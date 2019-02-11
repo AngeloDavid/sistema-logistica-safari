@@ -5,6 +5,7 @@ import {Logistic} from '../../interfaces/index';
 import { Storage } from '@ionic/storage';
 import { RouteService } from '../api/route.service';
 import * as moment from 'moment';
+import { runInThisContext } from 'vm';
 @Component({
   selector: 'app-addroute',
   templateUrl: './addroute.page.html',
@@ -67,6 +68,7 @@ export class AddroutePage implements OnInit {
           fecha.setHours(0);
           fecha.setMinutes(0);
           fecha.setSeconds(0);
+          this.datenow = fecha;
           this.isnew = true;
           this.logistica.FECHA_LOG = fecha.toISOString();
         }
@@ -117,6 +119,7 @@ export class AddroutePage implements OnInit {
           }
         }
       } else {
+        // servicio para insertar registros
         this.routerserv.addLogist(this.logistica).subscribe((data: any) => {
           console.log(data);
           if (data.CODE === 200) {
@@ -144,7 +147,6 @@ export class AddroutePage implements OnInit {
         }
       });
     }
-   // console.log(this.Listlg, 'lista');
   }
 
   // parametros: titulo, mensaje, ir a lista = true
@@ -158,8 +160,7 @@ export class AddroutePage implements OnInit {
           text: 'OK',
           handler: () => {
             if (gotoList) {
-              const refrescar = true;
-              this.router.navigate(['/list', { refreshlist: 1 } ]);
+              this.router.navigate(['/list', { refreshlist: 1, date: this.datenow } ]);
             }
           }
         }

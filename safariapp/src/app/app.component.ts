@@ -93,19 +93,20 @@ export class AppComponent {
   }
 
   initializeApp() {
-    this.router.navigateByUrl('/login');
-    this.storage.get('userlogin').then((val) => {
-      // console.log(val, 'valor' );
-      if (val) {
-        this.user = val;
-        this.router.navigateByUrl('/home');
-        console.log(val);
-      } else {
-        this.router.navigateByUrl('/login');
-      }
-      this.platform.ready().then(() => {
-        this.statusBar.styleLightContent();
-        this.splashScreen.hide();
+    this.platform.ready().then(() => {
+      this.statusBar.styleLightContent();
+      this.router.navigateByUrl('/login');
+      this.storage.get('userlogin').then((val) => {
+        // console.log(val, 'valor' );
+        if (val) {
+          this.user = val;
+          this.router.navigateByUrl('/home');
+          console.log(val);
+          this.splashScreen.hide();
+        } else {
+          this.router.navigateByUrl('/login');
+          this.splashScreen.hide();
+        }
       });
     });
   }

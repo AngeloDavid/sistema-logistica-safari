@@ -57,12 +57,10 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.storage.get('userlogin').then((val) => {
-    //   console.log(val, 'valor' );
       if (val) {
         this.user = val;
       } else {
-        this.router.navigate(['login', {skipLocationChange: true, replaceUrl: true}]);
-
+        this.router.navigate(['login' ]);
       }
     });
     // this.loadMap();

@@ -7,6 +7,7 @@ import { Logistic } from '../../interfaces/index';
 import { RouteService } from '../api/route.service';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import * as moment from 'moment';
+import { Global } from '../api/params';
 
 @Component({
   selector: 'app-list',
@@ -29,12 +30,15 @@ export class ListPage implements OnInit {
   selectedEvent: any;
   isSelected: any;
   user: User;
+  urlservice: string;
   // constructor
   constructor(private router: Router, private routeParms: ActivatedRoute, private alertCtrl: AlertController,
     public loadCtrl: LoadingController, private storage: Storage,
     public routersv: RouteService,
     public events: Events,
-    private callNumber: CallNumber ) {
+    private callNumber: CallNumber,
+    private global: Global ) {
+      this.urlservice = global.urlApi;
       this.monthNames = ['Ene', 'Feb', 'Mar', 'Apr' , 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct' , 'Nov', 'Dec'];
       this.date = new Date ();
 
@@ -45,17 +49,21 @@ export class ListPage implements OnInit {
         this.user = user;
         console.log(this.user);
       });
+      this.routeParms.params.subscribe(( data: any) => {
+        console.log(data);
+        if ( data.refreshlist === 1 ) {
+          if ( data.datenow != null ) {
+            this.date = new Date ( data.datenow);
+            this.dtoday = new Date (data.datenow);
+          }
+          this.refresh();
+        }
+      });
      }
 
   ngOnInit() {
     console.log('cargando');
     this.refresh();
-    this.routeParms.params.subscribe(( data: any) => {
-      console.log(data);
-      if ( data.refreshlist === 1 ) {
-        this.refresh();
-      }
-    });
   }
 
   gotoaddRoute(action, codelg) {
@@ -112,10 +120,12 @@ export class ListPage implements OnInit {
   }
   goToLastMonth() {
     this.date = new Date(this.date.getFullYear(), this.date.getMonth(), 0);
+    this.selectDay = null;
     this.getDaysOfMonth();
   }
   goToNextMonth() {
     this.date = new Date(this.date.getFullYear(), this.date.getMonth() + 2, 0);
+    this.selectDay = null;
     this.getDaysOfMonth();
   }
 
@@ -175,7 +185,6 @@ export class ListPage implements OnInit {
     const thisDate2 = new Date ( this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + day + ' 23:59:59');
     this.dtoday = thisDate1;
     this.selectDay = day;
-  //  console.log( this.eventList != null );
     if ( this.eventList != null ) {
       this.eventList.forEach(et => {
         const dt = et.FECHA_LOG.substring(0, 10) + ' ' + et.FECHA_LOG.substring(11, 16);

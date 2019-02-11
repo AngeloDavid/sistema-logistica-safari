@@ -81,7 +81,11 @@
                     
                     <ion-row align-items-end no-padding >
                       <ion-col no-padding text-center>
-                          <ion-button  *ngIf="se.FONO_CELULAR != null"  shape="round" color="danger" size="small" (click)="llamar(se.FONO_CELULAR)" ><ion-icon name="call"></ion-icon></ion-button>
+                          <ion-avatar text-center>
+                            <img src="assets/img/userDriver.png" *ngIf="se.FOTO == null" style="width: 100%">
+                            <img src="{{ urlservice }}{{ se.FOTO }}" *ngIf="se.FOTO != null" style="width: 100%">
+                          </ion-avatar>
+                          <!-- <ion-button  *ngIf="se.FONO_CELULAR != null"  shape="round" color="danger" size="small" (click)="llamar(se.FONO_CELULAR)" ><ion-icon name="call"></ion-icon></ion-button> -->
                           <!-- <ion-button   shape="round" color="danger" size="small" (click)="gotoaddRoute('edit',se.CODIGO_LOG)" ><ion-icon name="build"></ion-icon></ion-button>
                           <ion-button   shape="round"  color="danger" size="small" (click)="deleteEvent(se.CODIGO_LOG,se.FECHA_LOG)" ><ion-icon name="close"></ion-icon></ion-button>                           -->
                       </ion-col>                      
@@ -111,14 +115,15 @@
                       <ion-label>Hora de llegada</ion-label>
                       {{ se.HORA_LLEGADA }}
                     </ion-item> 
-                    <ion-item    (click)="llamar(se.FONO_CELULAR)">
-                      <ion-icon name="call" slot="start"></ion-icon>
+                    <ion-item>
+                        <ion-button  slot="start" *ngIf="se.FONO_CELULAR != null"  shape="round" color="danger" size="small" (click)="llamar(se.FONO_CELULAR)" ><ion-icon name="call"></ion-icon></ion-button>
+                        <ion-icon name="call" slot="start" *ngIf="se.FONO_CELULAR == null" ></ion-icon>
                       <ion-label>Telefono</ion-label>
                       {{ se.FONO_CELULAR }}
                     </ion-item>
-                    <ion-item class="activated" >
+                    <ion-item class="activated" >                      
                       <ion-icon name="star" slot="start" ></ion-icon>
-                      <ion-label>Clasificación</ion-label>
+                      <ion-label>Calificación</ion-label>
                     </ion-item>
               </ion-list>                
             </ion-card-content>

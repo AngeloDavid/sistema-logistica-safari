@@ -10,5 +10,6 @@ export class Logistic {
     NUMPLACA?: string;
     FONO_CELULAR?: string;
     HORA_LLEGADA?: string;
+    FOTO?: String;
     // ISFROMAPP: Boolean = true;
 }
