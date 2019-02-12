@@ -51,7 +51,7 @@ export class LoginPage implements OnInit {
             this.CambiarPwd();
           }
           cargando.dismiss();
-          this.router.navigateByUrl('/');
+          this.router.navigateByUrl('/members/home');
           this.idUser.setValue(null);
           this.pwdUser.setValue(null);
         }

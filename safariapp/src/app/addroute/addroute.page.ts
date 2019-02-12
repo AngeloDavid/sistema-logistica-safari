@@ -76,7 +76,7 @@ export class AddroutePage implements OnInit {
     });
   }
   gotoaddRoute() {
-    this.router.navigate(['/list', { refreshlist: 1 } ]);
+    this.router.navigate(['members', 'list', { refreshlist: 1 } ]);
   }
 
   async save() {

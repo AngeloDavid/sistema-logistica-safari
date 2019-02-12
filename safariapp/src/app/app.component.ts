@@ -6,6 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Storage } from '@ionic/storage';
 import { Router, ActivatedRoute } from '@angular/router';
+import {AuthGuard } from './api/authGuard.service';
 
 @Component({
   selector: 'app-root',
@@ -15,17 +16,17 @@ export class AppComponent {
   public appPages = [
     {
       title: 'Inicio',
-      url: '/home',
+      url: '/members/home',
       icon: 'home'
     },
     {
       title: 'Recorridos',
-      url: '/list',
+      url: '/members/list',
       icon: 'bus'
     },
     {
       title: 'Perfil',
-      url: '/profile',
+      url: '/members/profile',
       icon: 'contact'
     },
     // {
@@ -84,7 +85,8 @@ export class AppComponent {
     private statusBar: StatusBar,
     public events: Events,
     private storage: Storage,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
+    public authguard: AuthGuard
   ) {
     this.initializeApp();
     this.events.subscribe('userlogin', (user) => {
@@ -100,11 +102,10 @@ export class AppComponent {
         // console.log(val, 'valor' );
         if (val) {
           this.user = val;
-          this.router.navigateByUrl('/home');
-          console.log(val);
+          this.router.navigateByUrl('/members/home');
           this.splashScreen.hide();
         } else {
-          this.router.navigateByUrl('/login');
+          this.router.navigateByUrl('/');
           this.splashScreen.hide();
         }
       });
@@ -137,7 +138,8 @@ export class AppComponent {
               this.storage.remove('userlogin');
               this.storage.remove('listlog');
               this.events.publish('userlogin', this.uservacio);
-              this.router.navigate(['login'], {skipLocationChange: true, replaceUrl: true});
+              this.authguard.setEnablelogin(false);
+              this.router.navigateByUrl('/');
             }
           }
         ]

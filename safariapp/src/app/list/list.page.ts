@@ -8,6 +8,7 @@ import { RouteService } from '../api/route.service';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import * as moment from 'moment';
 import { Global } from '../api/params';
+import { isUndefined } from 'util';
 
 @Component({
   selector: 'app-list',
@@ -31,6 +32,8 @@ export class ListPage implements OnInit {
   isSelected: any;
   user: User;
   urlservice: string;
+  datei = new Date();
+  datef = new Date();
   // constructor
   constructor(private router: Router, private routeParms: ActivatedRoute, private alertCtrl: AlertController,
     public loadCtrl: LoadingController, private storage: Storage,
@@ -41,7 +44,10 @@ export class ListPage implements OnInit {
       this.urlservice = global.urlApi;
       this.monthNames = ['Ene', 'Feb', 'Mar', 'Apr' , 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct' , 'Nov', 'Dec'];
       this.date = new Date ();
-
+      this.datei.setMonth(this.date.getMonth() - 6);
+      this.datef.setMonth(this.date.getMonth() + 6);
+      this.datei.setDate(1);
+      this.datef.setDate(0);
       this.storage.get('userlogin').then((val) => {
         this.user = val;
       });
@@ -50,13 +56,14 @@ export class ListPage implements OnInit {
         console.log(this.user);
       });
       this.routeParms.params.subscribe(( data: any) => {
-        console.log(data);
-        if ( data.refreshlist === 1 ) {
-          if ( data.datenow != null ) {
-            this.date = new Date ( data.datenow);
-            this.dtoday = new Date (data.datenow);
+        if ( Object.keys(data).length !== 0) {
+          if ( data.refreshlist === 1 ) {
+            if ( data.datenow != null ) {
+              this.date = new Date ( data.datenow);
+              this.dtoday = new Date (data.datenow);
+            }
+            this.refresh();
           }
-          this.refresh();
         }
       });
      }
@@ -72,7 +79,7 @@ export class ListPage implements OnInit {
       CODIGO_LOG: codelg,
       dateNow: this.dtoday >=  this.date ? this.dtoday : this.date
     };
-    this.router.navigate(['/addroute', item]);
+    this.router.navigate(['members', 'addroute', item]);
   }
   // refresh
   async  refresh() {
@@ -120,20 +127,25 @@ export class ListPage implements OnInit {
   }
   goToLastMonth() {
     this.date = new Date(this.date.getFullYear(), this.date.getMonth(), 0);
-    this.selectDay = null;
-    this.getDaysOfMonth();
+    if ( this.datei < this.date) {
+      this.selectDay = null;
+      this.getDaysOfMonth();
+    }
   }
   goToNextMonth() {
     this.date = new Date(this.date.getFullYear(), this.date.getMonth() + 2, 0);
-    this.selectDay = null;
+    if (this.datef > this.date) {
+      this.selectDay = null;
     this.getDaysOfMonth();
+    }
   }
 
   loadEventThisMonth(alert: any ) {
     this.eventList = new Array();
     this.getDaysOfMonth();
     // coregir este detalle para que sea por anio
-    this.routersv.getalllogistcs(this.date.getFullYear() + '-01-01', this.date.getFullYear() + '-12-01', this.user.CODIGO_NOMINA)
+    this.routersv.getalllogistcs( moment( this.datei.toISOString(), moment.ISO_8601).format('YYYY-MM-DD'),
+    moment( this.datef.toISOString(), moment.ISO_8601).format('YYYY-MM-DD'), this.user.CODIGO_NOMINA)
     .subscribe((data: any) => {
       if ( data.CODE === 200 ) {
         this.eventList = data.value;
@@ -169,9 +181,11 @@ export class ListPage implements OnInit {
     // console.log( this.eventList != null );
     if ( this.eventList != null ) {
       this.eventList.forEach(et => {
-        const dt = et.FECHA_LOG.substring(0, 10) + ' ' + et.FECHA_LOG.substring(11, 16);
-        if (( new Date( dt )  >= thisDate1) && ( new Date (dt) <= thisDate2)) {
-          hasEvent = true;
+        if ( et.FECHA_LOG != null ) {
+          const dt = et.FECHA_LOG.substring(0, 10) + ' ' + et.FECHA_LOG.substring(11, 16);
+          if (( new Date( dt )  >= thisDate1) && ( new Date (dt) <= thisDate2)) {
+            hasEvent = true;
+          }
         }
       });
     }
@@ -187,10 +201,12 @@ export class ListPage implements OnInit {
     this.selectDay = day;
     if ( this.eventList != null ) {
       this.eventList.forEach(et => {
-        const dt = et.FECHA_LOG.substring(0, 10) + ' ' + et.FECHA_LOG.substring(11, 16);
-        if (( new Date(dt)  >= thisDate1) && ( new Date (dt) <= thisDate2)) {
-          this.isSelected = true;
-          this.selectedEvent.push(et);
+        if ( et.FECHA_LOG != null ) {
+          const dt = et.FECHA_LOG.substring(0, 10) + ' ' + et.FECHA_LOG.substring(11, 16);
+          if (( new Date(dt)  >= thisDate1) && ( new Date (dt) <= thisDate2)) {
+            this.isSelected = true;
+            this.selectedEvent.push(et);
+          }
         }
       });
     }
