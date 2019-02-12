@@ -99,7 +99,6 @@ export class AppComponent {
       this.statusBar.styleLightContent();
       this.router.navigateByUrl('/login');
       this.storage.get('userlogin').then((val) => {
-        // console.log(val, 'valor' );
         if (val) {
           this.user = val;
           this.router.navigateByUrl('/members/home');
