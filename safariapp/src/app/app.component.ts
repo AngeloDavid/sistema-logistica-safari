@@ -7,6 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Storage } from '@ionic/storage';
 import { Router, ActivatedRoute } from '@angular/router';
 import {AuthGuard } from './api/authGuard.service';
+import {AuthGuard1 } from './api/authGuard1.service';
 
 @Component({
   selector: 'app-root',
@@ -86,7 +87,8 @@ export class AppComponent {
     public events: Events,
     private storage: Storage,
     public alertCtrl: AlertController,
-    public authguard: AuthGuard
+    public authguard: AuthGuard,
+    public authguard1: AuthGuard1
   ) {
     this.initializeApp();
     this.events.subscribe('userlogin', (user) => {
@@ -138,6 +140,7 @@ export class AppComponent {
               this.storage.remove('listlog');
               this.events.publish('userlogin', this.uservacio);
               this.authguard.setEnablelogin(false);
+              this.authguard1.setEnablelogin(true);
               this.router.navigateByUrl('/');
             }
           }
