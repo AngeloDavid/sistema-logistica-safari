@@ -1,7 +1,7 @@
 {
   "name": "safariapp",
-  "version": "0.0.1",
-  "author": "Ionic Framework",
+  "version": "0.0.2",
+  "author": "dobleVia",
   "homepage": "http://ionicframework.com/",
   "scripts": {
     "ng": "ng",
@@ -43,6 +43,7 @@
     "core-js": "^2.5.3",
     "ionic4-date-picker": "0.0.6",
     "moment": "^2.22.2",
+    "mx.ferreyra.callnumber": "~0.0.2",
     "rxjs": "6.2.2",
     "rxjs-compat": "^6.3.3",
     "zone.js": "^0.8.26"

@@ -4,6 +4,7 @@ import {User} from '../../interfaces/user';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import {AuthGuard1 } from '../api/authGuard1.service';
+import {AuthGuard } from '../api/authGuard.service';
 import {AlertController, LoadingController, Events, ModalController} from '@ionic/angular';
 import {FormBuilder, FormGroup, Validators, AbstractControl} from '@angular/forms';
 import {MpChangePwdPage} from '../mp-change-pwd/mp-change-pwd.page';
@@ -22,7 +23,8 @@ export class LoginPage implements OnInit {
   constructor( private userSer: UserService, public events: Events, public modalController: ModalController,
     private storage: Storage, private router: Router, private alertCtrl: AlertController, private fb: FormBuilder,
     public loadCtrl: LoadingController,
-    public authguard1: AuthGuard1) {
+    public authguard1: AuthGuard1,
+    public authguard: AuthGuard) {
       this.loginForm = fb.group({
         'idUser' : ['', Validators.compose([Validators.required])],
         'pwdUser' : ['', Validators.compose([Validators.required])],
@@ -54,6 +56,7 @@ export class LoginPage implements OnInit {
           }
           cargando.dismiss();
           this.authguard1.setEnablelogin(false);
+          this.authguard.setEnablelogin(true);
           this.router.navigateByUrl('/members/home');
           this.idUser.setValue(null);
           this.pwdUser.setValue(null);
