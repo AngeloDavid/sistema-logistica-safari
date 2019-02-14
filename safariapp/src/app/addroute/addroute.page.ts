@@ -160,7 +160,7 @@ export class AddroutePage implements OnInit {
           text: 'OK',
           handler: () => {
             if (gotoList) {
-              this.router.navigate(['/list', { refreshlist: 1, date: this.datenow } ]);
+              this.router.navigate(['members', 'list', { refreshlist: 1, date: this.datenow } ]);
             }
           }
         }

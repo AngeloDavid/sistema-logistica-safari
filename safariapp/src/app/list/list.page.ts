@@ -44,8 +44,8 @@ export class ListPage implements OnInit {
       this.urlservice = global.urlApi;
       this.monthNames = ['Ene', 'Feb', 'Mar', 'Apr' , 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct' , 'Nov', 'Dec'];
       this.date = new Date ();
-      this.datei.setMonth(this.date.getMonth() - 6);
-      this.datef.setMonth(this.date.getMonth() + 6);
+      this.datei.setMonth(this.date.getMonth() - 3);
+      this.datef.setMonth(this.date.getMonth() + 3);
       this.datei.setDate(1);
       this.datef.setDate(0);
       this.storage.get('userlogin').then((val) => {

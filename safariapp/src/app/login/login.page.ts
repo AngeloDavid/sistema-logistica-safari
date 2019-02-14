@@ -58,8 +58,7 @@ export class LoginPage implements OnInit {
           this.authguard1.setEnablelogin(false);
           this.authguard.setEnablelogin(true);
           this.router.navigateByUrl('/members/home');
-          this.idUser.setValue(null);
-          this.pwdUser.setValue(null);
+          this.loginForm.reset();
         }
       },
       err => {
